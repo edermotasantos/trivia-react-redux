@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class Login extends React.Component {
   constructor(props) {
