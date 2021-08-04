@@ -1,6 +1,7 @@
 import React from 'react';
 import './Login.css';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -65,6 +66,11 @@ class Login extends React.Component {
         <button disabled={ isDisable } type="submit" data-testid="btn-play">
           Jogar
         </button>
+        <Link to="/Settings">
+          <button data-testid="btn-settings" type="button">
+            Configurações
+          </button>
+        </Link>
       </form>
     );
   }
