@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types'; // 2
 import './Login.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { changePlayerInfo, validateLogin } from '../actions'; // 2
+import * as api from '../services/api'; // 2
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,9 +13,13 @@ class Login extends React.Component {
       name: '',
       email: '',
       isDisable: true,
+      token: '', // 2
+      gravatar: '', // 2
     };
     this.handleChange = this.handleChange.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
+    this.getToken = this.getToken.bind(this); // 2
+    this.validateLogin = this.validateLogin.bind(this); // 2
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -22,8 +29,23 @@ class Login extends React.Component {
     }
   }
 
-  handleChange({ target: { name, value } }) {
-    this.setState((prevState) => ({ ...prevState, [name]: value }));
+  async getToken() { // 2
+    const { email } = this.state;
+    const { player: { player } } = this.props;
+
+    const tokenRequest = await api.getToken();
+    const gravatarRequest = api.getGravatar(email);
+
+    console.log(tokenRequest.token);
+    console.log(gravatarRequest);
+
+    this.setState({
+      token: tokenRequest.token,
+      gravatar: gravatarRequest,
+    });
+
+    localStorage.setItem('state', JSON.stringify(player));
+    localStorage.setItem('token', tokenRequest.token);
   }
 
   verifyLogin() {
@@ -34,6 +56,28 @@ class Login extends React.Component {
     } else {
       this.setState({ isDisable: true });
     }
+  }
+
+  handleChange({ target: { name, value } }) {
+    this.setState((prevState) => ({ ...prevState, [name]: value }));
+  }
+
+  async validateLogin() { // 2
+    const { token } = this.state;
+    const { validateLoginHandler } = this.props;
+
+    this.getToken();
+
+    const questions = await api.getQuestions(token);
+    console.log(questions.results);
+
+    const playerDataStorage = JSON.parse(localStorage.getItem('state'));
+    const tokenDataStorage = (localStorage.getItem('token'));
+
+    console.log(`O nome do jogador é: ${playerDataStorage.name}`);
+    console.log(`Token: ${tokenDataStorage}`);
+
+    validateLoginHandler(true);
   }
 
   render() {
@@ -62,8 +106,12 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-
-        <button disabled={ isDisable } type="submit" data-testid="btn-play">
+        <button
+          onClick={ this.validateLogin } // 2
+          disabled={ isDisable }
+          type="button"
+          data-testid="btn-play"
+        >
           Jogar
         </button>
         <Link to="/Settings">
@@ -80,4 +128,21 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
-export default connect(mapStateToProps, null)(Login);
+const mapDispatchToProps = (dispatch) => ({ // 2
+  changePlayerInfoHandler: (playerInfo) => dispatch(changePlayerInfo(playerInfo)), // 2
+  validateLoginHandler: () => dispatch(validateLogin()), // 2
+});
+
+Login.propTypes = {
+  player: PropTypes.shape({
+    player: PropTypes.shape({
+      name: PropTypes.string,
+      assertions: PropTypes.number,
+      score: PropTypes.number,
+      gravatarEmail: PropTypes.string,
+    }),
+  }).isRequired,
+  validateLoginHandler: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
