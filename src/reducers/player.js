@@ -1,12 +1,10 @@
 import { CHANGE_PLAYER_INFORMATION, VALIDATE_LOGIN } from '../actions'; // 2
 
-const INITIAL_STATE = {
-  player: { // 2
-    name: '',
-    assertions: 0,
-    score: 0,
-    gravatarEmail: '',
-  },
+const INITIAL_STATE = { // 2
+  name: '',
+  assertions: 0,
+  score: 0,
+  gravatarEmail: '',
   loggedIn: false, // 2
 };
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux'; // 2
 import PropTypes from 'prop-types'; // 2
-// import logo from './trivia.png';
 import './App.css';
 import Login from './pages/Login';
 import Trivia from './pages/Trivia'; // 2
@@ -13,11 +12,6 @@ class App extends React.Component {
     const { player: { loggedIn } } = this.props;
     return (
       <div className="App">
-        {/* <header className="App-header">
-          <img src={ logo } className="App-logo" alt="logo" />
-          <p>SUA VEZ</p>
-          <Login /> */}
-        {/* </header> */}
         <Switch>
           <Route exact path="/">
             {loggedIn ? <Redirect to="/play" /> : <Login />}
