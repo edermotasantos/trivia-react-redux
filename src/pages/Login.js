@@ -33,12 +33,8 @@ class Login extends React.Component {
   async getToken() { // 2
     const { name, email } = this.state;
     const { player: { assertions, score }, changePlayerInfoHandler } = this.props;
-
     const tokenRequest = await api.getToken();
     const gravatarRequest = api.getGravatar(email);
-
-    console.log(tokenRequest.token);
-    console.log(gravatarRequest);
 
     changePlayerInfoHandler({
       name,
@@ -76,20 +72,9 @@ class Login extends React.Component {
   }
 
   async validateLogin() { // 2
-    const { token } = this.state;
     const { validateLoginHandler } = this.props;
-
     this.getToken();
-
-    const questions = await api.getQuestions(token);
-    console.log(questions.results);
-
-    const playerDataStorage = JSON.parse(localStorage.getItem('state'));
-    const tokenDataStorage = (localStorage.getItem('token'));
-
-    console.log(`O nome do jogador é: ${playerDataStorage.player.name}`);
-    console.log(`Token: ${tokenDataStorage}`);
-
+    // const questions = await api.getQuestions(token);
     validateLoginHandler();
   }
 
