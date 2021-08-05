@@ -1,7 +1,7 @@
 import React from 'react';
-import './Login.css';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import fethApi from '../services/api';
 
 class Login extends React.Component {
   constructor(props) {
@@ -62,12 +62,22 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-
-        <button disabled={ isDisable } type="submit" data-testid="btn-play">
-          Jogar
-        </button>
+        <Link to="/game">
+          <button
+            onClick={ fethApi }
+            disabled={ isDisable }
+            type="submit"
+            data-testid="btn-play"
+          >
+            Jogar
+          </button>
+        </Link>
         <Link to="/Settings">
-          <button data-testid="btn-settings" type="button">
+          <button
+            data-testid="btn-settings"
+            type="button"
+            // onClick={ this.handleClick }
+          >
             Configurações
           </button>
         </Link>

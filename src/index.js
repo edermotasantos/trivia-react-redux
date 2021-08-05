@@ -16,8 +16,4 @@ ReactDOM.render(
   document.getElementById('root'),
 );
 
-if (window.Cypress) {
-  window.store = store;
-}
-
 serviceWorker.unregister();
