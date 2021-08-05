@@ -2,8 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import logo from '../trivia.png';
 import { changePlayerInfo } from '../actions';
 import * as api from '../services/api';
+import './Login.css';
 
 class Login extends React.Component {
   constructor(props) {
