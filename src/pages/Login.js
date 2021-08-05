@@ -21,11 +21,11 @@ class Login extends React.Component {
       this.verifyLogin();
     }
   }
-
+  
   handleChange({ target: { name, value } }) {
     this.setState((prevState) => ({ ...prevState, [name]: value }));
   }
-
+  
   verifyLogin() {
     const { name, email } = this.state;
     const regex = /^[\w-.]+@([\w-]+.)+[\w-]{2,4}$/g;

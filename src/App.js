@@ -7,6 +7,7 @@ import Settings from './pages/Settings';
 
 class App extends React.Component {
   render() {
+    const { player: { loggedIn } } = this.props;
     return (
       <div className="App">
         <header className="App-header">
@@ -21,4 +22,14 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({ // 2
+  player: state.player,
+});
+
+App.propTypes = { // 2
+  player: PropTypes.shape({
+    loggedIn: PropTypes.bool,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps, null)(App); // 2

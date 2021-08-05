@@ -1,3 +1,6 @@
+import md5 from 'crypto-js/md5';
+
+const URL_GRAVATAR = 'https://www.gravatar.com/avatar/';
 const URL = 'https://opentdb.com/api_token.php?command=request';
 
 const fethApi = async () => {
@@ -10,4 +13,11 @@ const fethApi = async () => {
   const result = responsePergunta.results;
   return result;
 };
-export default fethApi;
+
+function getGravatar(email) {
+  const emailHash = md5(email).toString();
+  const gravatarLink = `${URL_GRAVATAR}${emailHash}`;
+  return gravatarLink;
+}
+
+export { fethAPI, getGravatar };
