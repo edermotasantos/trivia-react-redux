@@ -57,49 +57,52 @@ class Login extends React.Component {
   render() {
     const { name, email, isDisable } = this.state;
     return (
-      <form className="login">
-        <label htmlFor="input-text">
-          <input
-            value={ name }
-            name="name"
-            type="text"
-            placeholder="Digite seu Nome"
-            data-testid="input-player-name"
-            id="input-text"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="input-email">
-          <input
-            value={ email }
-            name="email"
-            type="email"
-            data-testid="input-gravatar-email"
-            placeholder="Digite seu Email"
-            id="input-email"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <Link to="/game">
-          <button
-            onClick={ this.validateLogin }
-            disabled={ isDisable }
-            type="submit"
-            data-testid="btn-play"
-          >
-            Jogar
-          </button>
-        </Link>
-        <Link to="/Settings">
-          <button
-            data-testid="btn-settings"
-            type="button"
-          >
-            Configurações
-          </button>
-        </Link>
-      </form>
-    );
+      <header className="App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <p>SUA VEZ</p>
+        <form className="login">
+          <label htmlFor="input-text">
+            <input
+              value={ name }
+              name="name"
+              type="text"
+              placeholder="Digite seu Nome"
+              data-testid="input-player-name"
+              id="input-text"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="input-email">
+            <input
+              value={ email }
+              name="email"
+              type="email"
+              data-testid="input-gravatar-email"
+              placeholder="Digite seu Email"
+              id="input-email"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <Link to="/game">
+            <button
+              onClick={ this.validateLogin }
+              disabled={ isDisable }
+              type="submit"
+              data-testid="btn-play"
+            >
+              Jogar
+            </button>
+          </Link>
+          <Link to="/Settings">
+            <button
+              data-testid="btn-settings"
+              type="button"
+            >
+              Configurações
+            </button>
+          </Link>
+        </form>
+      </header>);
   }
 }
 

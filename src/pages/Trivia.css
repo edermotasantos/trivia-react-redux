@@ -1,9 +1,0 @@
-.trivia-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.player-image {
-  margin: auto;
-  max-width: 80px;
-}
