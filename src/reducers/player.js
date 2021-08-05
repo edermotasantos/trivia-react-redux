@@ -1,11 +1,10 @@
-import { CHANGE_PLAYER_INFORMATION, VALIDATE_LOGIN } from '../actions'; // 2
+import { CHANGE_PLAYER_INFORMATION } from '../actions'; // 2
 
-const INITIAL_STATE = { // 2
+const INITIAL_STATE = {
   name: '',
   assertions: 0,
   score: 0,
   gravatarEmail: '',
-  loggedIn: false, // 2
 };
 
 const player = (state = INITIAL_STATE, action) => {
@@ -15,9 +14,6 @@ const player = (state = INITIAL_STATE, action) => {
       ...state,
       ...action.playerInfo,
     };
-
-  case VALIDATE_LOGIN: // 2
-    return { ...state, loggedIn: true };
 
   default:
     return state;

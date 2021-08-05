@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import fethApi from '../services/api';
-import { Header } from '../components'; 
+import * as api from '../services/api';
+import Header from '../components/Header';
 
 class Game extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       questions: [],
       isloading: true,
@@ -15,7 +15,7 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    fethApi().then((questions) => {
+    api.fethApi().then((questions) => {
       this.setState({
         questions,
         isloading: false,
