@@ -1,26 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types'; // 2
-import './Login.css';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import logo from '../trivia.png';
-import { changePlayerInfo, validateLogin } from '../actions'; // 2
-import * as api from '../services/api'; // 2
+import { changePlayerInfo } from '../actions';
+import * as api from '../services/api';
+import './Login.css';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
       email: '',
       isDisable: true,
-      token: '', // 2
-      gravatar: '', // 2
+      token: '',
+      gravatar: '',
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
-    this.getToken = this.getToken.bind(this); // 2
-    this.validateLogin = this.validateLogin.bind(this); // 2
+    this.validateLogin = this.validateLogin.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -30,31 +31,8 @@ class Login extends React.Component {
     }
   }
 
-  async getToken() { // 2
-    const { name, email } = this.state;
-    const { player: { assertions, score }, changePlayerInfoHandler } = this.props;
-    const tokenRequest = await api.getToken();
-    const gravatarRequest = api.getGravatar(email);
-
-    changePlayerInfoHandler({
-      name,
-      gravatarEmail: gravatarRequest,
-    });
-
-    this.setState({
-      token: tokenRequest.token,
-      gravatar: gravatarRequest,
-    });
-
-    localStorage.setItem('state', JSON.stringify({
-      player: {
-        name,
-        assertions,
-        score,
-        gravatarEmail: gravatarRequest,
-      },
-    }));
-    localStorage.setItem('token', tokenRequest.token);
+  handleChange({ target: { name, value } }) {
+    this.setState((prevState) => ({ ...prevState, [name]: value }));
   }
 
   verifyLogin() {
@@ -67,15 +45,15 @@ class Login extends React.Component {
     }
   }
 
-  handleChange({ target: { name, value } }) {
-    this.setState((prevState) => ({ ...prevState, [name]: value }));
-  }
-
-  async validateLogin() { // 2
-    const { validateLoginHandler } = this.props;
-    this.getToken();
-    // const questions = await api.getQuestions(token);
-    validateLoginHandler();
+  validateLogin() {
+    const { changePlayerInfoHandler } = this.props;
+    const { name, email } = this.state;
+    const gravatarRequest = api.getGravatar(email);
+    api.fethApi();
+    changePlayerInfoHandler({
+      name,
+      gravatarEmail: gravatarRequest,
+    });
   }
 
   render() {
@@ -107,22 +85,26 @@ class Login extends React.Component {
               onChange={ this.handleChange }
             />
           </label>
-          <button
-            onClick={ this.validateLogin } // 2
-            disabled={ isDisable }
-            type="button"
-            data-testid="btn-play"
-          >
-            Jogar
-          </button>
+          <Link to="/game">
+            <button
+              onClick={ this.validateLogin }
+              disabled={ isDisable }
+              type="submit"
+              data-testid="btn-play"
+            >
+              Jogar
+            </button>
+          </Link>
           <Link to="/Settings">
-            <button data-testid="btn-settings" type="button">
+            <button
+              data-testid="btn-settings"
+              type="button"
+            >
               Configurações
             </button>
           </Link>
         </form>
-      </header>
-    );
+      </header>);
   }
 }
 
@@ -130,20 +112,16 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
-const mapDispatchToProps = (dispatch) => ({ // 2
-  changePlayerInfoHandler: (playerInfo) => dispatch(changePlayerInfo(playerInfo)), // 2
-  validateLoginHandler: () => dispatch(validateLogin()), // 2
+const mapDispatchToProps = (dispatch) => ({
+  changePlayerInfoHandler: (playerInfo) => dispatch(changePlayerInfo(playerInfo)),
 });
 
 Login.propTypes = {
   player: PropTypes.shape({
     name: PropTypes.string,
-    assertions: PropTypes.number,
-    score: PropTypes.number,
     gravatarEmail: PropTypes.string,
   }).isRequired,
   changePlayerInfoHandler: PropTypes.func.isRequired,
-  validateLoginHandler: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,18 +1,18 @@
 import md5 from 'crypto-js/md5';
 
-const URL_TOKEN = 'https://opentdb.com/api_token.php?command=request';
-const URL_TRIVIA = 'https://opentdb.com/api.php?amount=5&token=';
 const URL_GRAVATAR = 'https://www.gravatar.com/avatar/';
+const URL = 'https://opentdb.com/api_token.php?command=request';
 
-export async function getToken() {
-  return fetch(URL_TOKEN)
-    .then((response) => response.json());
-}
-
-export async function getQuestions(token) {
-  return fetch(`${URL_TRIVIA}${token}`)
-    .then((response) => response.json());
-}
+export const fethApi = async () => {
+  const response = await fetch(URL);
+  const responseJson = await response.json();
+  const data = responseJson.token;
+  localStorage.token = data;
+  const reqPergunta = await fetch(`https://opentdb.com/api.php?amount=5&token=${data}`);
+  const responsePergunta = await reqPergunta.json();
+  const result = responsePergunta.results;
+  return result;
+};
 
 export function getGravatar(email) {
   const emailHash = md5(email).toString();
