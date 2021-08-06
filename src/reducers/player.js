@@ -1,4 +1,4 @@
-import { CHANGE_PLAYER_INFORMATION } from '../actions';
+import { CHANGE_PLAYER_INFORMATION } from '../actions'; // 2
 
 const INITIAL_STATE = {
   name: '',
