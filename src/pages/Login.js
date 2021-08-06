@@ -46,14 +46,13 @@ class Login extends React.Component {
   }
 
   validateLogin() {
-    const { changePlayerInfoHandler } = this.props;
+    const { player: { assertions, score }, changePlayerInfoHandler } = this.props;
     const { name, email } = this.state;
-    const gravatarRequest = api.getGravatar(email);
+    const gravatarEmail = api.getGravatar(email);
     api.fethApi();
-    changePlayerInfoHandler({
-      name,
-      gravatarEmail: gravatarRequest,
-    });
+    const state = { player: { name, assertions, score, gravatarEmail } };
+    localStorage.setItem('state', JSON.stringify(state));
+    changePlayerInfoHandler({ name, gravatarEmail });
   }
 
   render() {
@@ -119,6 +118,8 @@ const mapDispatchToProps = (dispatch) => ({
 Login.propTypes = {
   player: PropTypes.shape({
     name: PropTypes.string,
+    assertions: PropTypes.number,
+    score: PropTypes.number,
     gravatarEmail: PropTypes.string,
   }).isRequired,
   changePlayerInfoHandler: PropTypes.func.isRequired,
