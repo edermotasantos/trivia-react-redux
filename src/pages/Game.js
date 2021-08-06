@@ -209,6 +209,7 @@ class Game extends Component {
           <h1 className="title">TRIVIA</h1>
           <div className="next-container">
             <button
+              data-testid="btn-next"
               type="button"
               className="next material-icons"
               onClick={ () => console.log('Pŕoxima pergunta') }
