@@ -1,4 +1,4 @@
-import { CHANGE_PLAYER_INFORMATION } from '../actions';
+import { CHANGE_PLAYER_INFORMATION, SET_UPDATE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -10,11 +10,9 @@ const INITIAL_STATE = {
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case CHANGE_PLAYER_INFORMATION:
-    return {
-      ...state,
-      ...action.playerInfo,
-    };
-
+    return { ...state, ...action.playerInfo };
+  case SET_UPDATE_SCORE:
+    return { ...state, ...action.scoreInfo };
   default:
     return state;
   }

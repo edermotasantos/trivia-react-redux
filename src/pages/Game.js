@@ -2,56 +2,48 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as api from '../services/api';
+import { setUpdateScore } from '../actions';
 import Header from '../components/Header';
 import './Game.css';
 
-const TIMER = 30; // - Requisito 8
-const SECOND = 1000; // - Requisito 8
-const RAND = 0.7; // <- Prepara As Questões
+const TIMER = 30;
+const SECOND = 1000;
+const RAND = 0.7;
 const ADJUST = -2;
-const CORRECT = 'correct-answer';
-const WRONG = 'wrong-answer';
 const EASY = 1;
 const MEDIUM = 2;
 const HARD = 3;
+const CORRECT = 'correct-answer';
+const WRONG = 'wrong-answer';
 
 class Game extends Component {
   constructor(props) {
     super(props);
 
-    this.color = this.color.bind(this); // <- Requisito 7
-    this.startTimer = this.startTimer.bind(this); // <- Requisito 8
-    this.resetTimer = this.resetTimer.bind(this); // <- Requisito 8
-    this.stopTimer = this.stopTimer.bind(this); // <- Requisito 8
-    this.prepareTrivia = this.prepareTrivia.bind(this); // <- Prepara As Questões
-    this.disableAnswers = this.disableAnswers.bind(this); // <- Requisito 8
-    this.submitAnswer = this.submitAnswer.bind(this); // <- Requisito 9
+    this.color = this.color.bind(this);
+    this.startTimer = this.startTimer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.prepareTrivia = this.prepareTrivia.bind(this);
+    this.disableAnswers = this.disableAnswers.bind(this);
+    this.submitAnswer = this.submitAnswer.bind(this);
     this.renderGame = this.renderGame.bind(this);
     this.adjustTimerStyle = this.adjustTimerStyle.bind(this);
     this.identifyDifficulty = this.identifyDifficulty.bind(this);
 
-    this.state = {
-      questions: [],
-      isLoading: true,
-      isPlaying: false, // <- Requisito 8
-      timer: TIMER, // <- Requisito 8
-    };
+    this.state = { questions: [], isLoading: true, isPlaying: false, timer: TIMER };
   }
 
   componentDidMount() {
     api.fethApi().then((questions) => {
-      this.setState({
-        questions,
-      });
+      this.setState({ questions });
       this.prepareTrivia();
     });
   }
 
   componentDidUpdate() {
     const { isloading, isPlaying, timer } = this.state;
-    if (!isloading && isPlaying) {
-      this.startTimer();
-    }
+    if (!isloading && isPlaying) this.startTimer();
     if (timer === 0) {
       this.stopTimer();
       this.disableAnswers();
@@ -73,14 +65,16 @@ class Game extends Component {
     const mixedAnswers = spreadAnswers
       .map((answer) => answer.sort(() => Math.random() - RAND));
     const formatQuestions = questions.map((question, index) => {
+      const decodeQuestion = question.question.replaceAll('&amp;', '&')
+        .replaceAll('&quot;', '"').replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>');
       const formatObject = {
         category: question.category,
         type: question.category,
         difficulty: question.difficulty,
-        question: question.question,
+        question: decodeQuestion,
         answers: mixedAnswers[index],
-      };
-      return formatObject;
+      }; return formatObject;
     });
     this.setState({ questions: formatQuestions, isLoading: false, isPlaying: true });
   }
@@ -122,19 +116,17 @@ class Game extends Component {
     timerContainer.style.cssText = timerAdjust;
   }
 
-  submitAnswer({ target: { className, id } }) {
+  submitAnswer({ target: { className } }) {
     const { timer } = this.state;
     this.disableAnswers();
     this.color();
     this.stopTimer();
+    if (timer === 0) this.setState({ timer: 'Tempo ESGOTADO!' });
     if (className.split(' ', 2)[1] === CORRECT) {
-      console.log('Acertou');
-      this.calculateScore(timer, id);
+      // this.calculateScore(timer, id);
       this.setState({ timer: 'ACERTOU!' });
       this.adjustTimerStyle();
     } else {
-      console.log(className.split(' ', 2)[1]);
-      console.log('Errou!');
       this.setState({ timer: 'ERROU!' });
       this.adjustTimerStyle();
     }
@@ -142,24 +134,23 @@ class Game extends Component {
 
   identifyDifficulty(difficultyLevel) {
     switch (difficultyLevel) {
-    case 'easy':
-      return EASY;
-    case 'medium':
-      return MEDIUM;
-    case 'hard':
-      return HARD;
-    default:
-      return 0;
+    case 'easy': return EASY;
+    case 'medium': return MEDIUM;
+    case 'hard': return HARD;
+    default: return 0;
     }
   }
 
   calculateScore(timer, difficultyLevel) {
+    const { player: { score }, setUpdateScoreHandler } = this.props;
     const CONST = 10;
     const difficulty = this.identifyDifficulty(difficultyLevel);
-    console.log(`Constante: ${CONST}
-    Timer: ${timer}
-    Difficulty: ${difficulty}`);
-    console.log(`10 + (${timer} * ${difficulty}) = ${CONST + (timer * difficulty)}`);
+    const addToScore = `${score + (CONST + (timer * difficulty))}`;
+    setUpdateScoreHandler({ score: addToScore });
+    const retrievePlayer = JSON.parse(localStorage.getItem('state'));
+    retrievePlayer.player.score = addToScore;
+    retrievePlayer.player.assertions += 1;
+    localStorage.setItem('state', JSON.stringify(retrievePlayer));
   }
 
   renderGame() {
@@ -209,6 +200,7 @@ class Game extends Component {
           <h1 className="title">TRIVIA</h1>
           <div className="next-container">
             <button
+              data-testid="btn-next"
               type="button"
               className="next material-icons"
               onClick={ () => console.log('Pŕoxima pergunta') }
@@ -231,12 +223,17 @@ const mapStateToProps = (state) => ({
   player: state.player,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  setUpdateScoreHandler: (scoreInfo) => dispatch(setUpdateScore(scoreInfo)),
+});
+
 Game.propTypes = {
   player: PropTypes.shape({
     name: PropTypes.string,
     gravatarEmail: PropTypes.string,
     score: PropTypes.number,
   }).isRequired,
+  setUpdateScoreHandler: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, null)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
