@@ -3,6 +3,7 @@
   border: solid 3px white;
   display: flex;
   flex-direction: column;
+  padding-bottom: 1em;
   width: 60%;
 }
 
@@ -35,17 +36,19 @@
 
 .title {
   font-size: 2em;
+  margin: 0.5em auto;
 }
 
 .player-container {
   align-items: center;
   display: flex;
   flex-direction: row;
+  margin: 0.5em auto;
 }
 
 .player-name {
   font-size: 1em;
-  margin: 0 1em;
+  margin: auto 1em;
   order: 1;
 }
 
@@ -61,11 +64,12 @@
 
 .player-score {
   font-size: 1.5em;
+  margin: auto;
   margin-left: 2em;
   order: 3;
 }
 
-.question-header {
+.question-container {
   display: flex;
   flex-direction: column;
 }
@@ -79,6 +83,7 @@
 
 .question-category {
   font-size: 1em;
+
 }
 
 .question-text {
@@ -115,7 +120,7 @@
 
 .btn {
   background-color: white;
-  border: transparent;
+  border: solid 3px white;
   border-radius: 5px;
   color: rgb(40, 44, 52);
   font-size: 0.6em;

@@ -1,7 +1,11 @@
-const CHANGE_PLAYER_INFORMATION = 'CHANGE_PLAYER_INFORMATION';
-export const SET_UPDATE_SCORE = 'SET_UPDATE_SCORE';
+import {
+  CHANGE_PLAYER_INFORMATION,
+  SET_UPDATE_SCORE,
+  RESET_SCORE,
+  WILL_PLAY_AGAIN,
+} from './ActionTypes';
 
-const changePlayerInfo = (playerInfo) => ({
+export const changePlayerInfo = (playerInfo) => ({
   type: CHANGE_PLAYER_INFORMATION,
   playerInfo,
 });
@@ -11,4 +15,10 @@ export const setUpdateScore = (scoreInfo) => ({
   scoreInfo,
 });
 
-export { changePlayerInfo, CHANGE_PLAYER_INFORMATION };
+export const resetScore = () => ({
+  type: RESET_SCORE,
+});
+
+export const willPlayAgain = () => ({
+  type: WILL_PLAY_AGAIN,
+});

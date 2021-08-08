@@ -1,28 +1,102 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+const GAME = 'game';
+const FEEDBACK = 'feedback';
 
 class Header extends Component {
-  render() {
-    const { name, gravatar, score } = this.props;
+  constructor(props) {
+    super(props);
+
+    this.renderGameHeader = this.renderGameHeader.bind(this);
+    this.rederFeedbackHeader = this.renderFeedbackHeader.bind(this);
+  }
+
+  renderGameHeader() {
+    const { player: { playAgain }, name, gravatar, score } = this.props;
+
     return (
-      <header className="trivia-container">
-        <h2 data-testid="header-player-name">{ name }</h2>
+      <header className="player-container">
+        <h2 className="player-name" data-testid="header-player-name">{ name }</h2>
         <img
-          data-testid="header-profile-picture"
+          data-testid={ playAgain ? 'input-gravatar-email' : 'header-profile-picture' }
           className="player-image"
           src={ gravatar }
           alt="Imagem do Player"
         />
-        <h3 data-testid="header-score">{ score }</h3>
+        <h3 className="player-score" data-testid="header-score">{ score }</h3>
       </header>
     );
   }
+
+  renderFeedbackHeader() {
+    const { name, gravatar, score, assertions } = this.props;
+
+    return (
+      <header className="feedback-player-container">
+        <div className="feedback-player-header">
+          <div className="feedback-images-container">
+            <img
+              data-testid="header-profile-picture"
+              className="feedback-profile-picture"
+              src={ gravatar }
+              alt="Imagem do Player"
+            />
+            <h1 className="feedback-title material-icons">emoji_events</h1>
+            <h5 data-testid="header-score">{ score }</h5>
+          </div>
+          <div className="feedback-data-container">
+            <h2 className="feedback-player-name" data-testid="header-player-name">
+              { name }
+            </h2>
+            <h3
+              className="feedback-score"
+              data-testid="feedback-total-score"
+            >
+              {/* { `Placar final: ${score}` } */}
+              { score }
+            </h3>
+            <h4
+              className="feedback-assetions"
+              data-testid="feedback-total-question"
+            >
+              {/* { `Total de acertos: ${assertions}` } */}
+              { assertions }
+            </h4>
+          </div>
+
+        </div>
+
+      </header>
+    );
+  }
+
+  render() {
+    const { toRender } = this.props;
+
+    switch (toRender) {
+    case GAME:
+      return this.renderGameHeader();
+    case FEEDBACK:
+      return this.renderFeedbackHeader();
+    default:
+      return (<> </>);
+    }
+  }
 }
+
+const mapStateToProps = (state) => ({ player: state.player });
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
   gravatar: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
+  toRender: PropTypes.string.isRequired,
+  assertions: PropTypes.number.isRequired,
+  player: PropTypes.shape({
+    playAgain: PropTypes.bool,
+  }).isRequired,
 };
 
-export default Header;
+export default connect(mapStateToProps, null)(Header);
