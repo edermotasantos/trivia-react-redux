@@ -1,0 +1,64 @@
+.feedback-player-container {
+  border: solid 2px white;
+}
+
+.feedback-player-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.feedback-images-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 1em;
+}
+
+.feedback-title {
+  color: gold;
+  font-size: 4em;
+  margin: 0;
+}
+
+.feedback-profile-picture {
+  background-color: white;
+  border: solid 2px  white;
+  border-radius: 50%;
+  max-width: 90%;
+}
+
+.feedback-data-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto 1em;
+}
+
+.play-again-container {
+  align-items: center;
+  background-color: white;
+  border: solid 2px white;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: auto;
+  max-width: max-content;
+}
+
+.play-again {
+  background-color: transparent;
+  border: transparent;
+  color: rgb(40, 44, 52);
+  font-size: 1.3em;
+}
+
+.play-again-label {
+  background-color: transparent;
+  border: transparent;
+  color: rgb(40, 44, 52);
+  font-size: 0.6em;
+  font-weight: 600;
+  height: 2.5em;
+}
