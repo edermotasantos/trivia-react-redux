@@ -45,10 +45,10 @@ export function calculateScore(timer, difficultyLevel) {
   const CONST = 10;
   const difficulty = identifyDifficulty(difficultyLevel);
   const addToScore = parseInt(`${CONST + (timer * difficulty)}`, 10);
-  console.log(`${CONST} + (${timer} * ${difficulty}) = ${addToScore}`);
+  // console.log(`${CONST} + (${timer} * ${difficulty}) = ${addToScore}`);
   const retrievePlayer = JSON.parse(localStorage.getItem('state'));
   const currentScore = parseInt(retrievePlayer.player.score, 10);
-  console.log(`${currentScore} + ${addToScore} = ${currentScore + addToScore}`);
+  // console.log(`${currentScore} + ${addToScore} = ${currentScore + addToScore}`);
   retrievePlayer.player.score = currentScore + addToScore;
   retrievePlayer.player.assertions += 1;
   localStorage.setItem('state', JSON.stringify(retrievePlayer));

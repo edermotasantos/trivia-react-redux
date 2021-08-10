@@ -97,7 +97,7 @@ class Game extends Component {
   calculateScore(timer, difficultyLevel) {
     const { setUpdateScoreHandler } = this.props;
     const calculatedScore = util.calculateScore(timer, difficultyLevel);
-    console.log(calculatedScore);
+    // console.log(calculatedScore);
     setUpdateScoreHandler({ score: calculatedScore });
   }
 

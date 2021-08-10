@@ -13,32 +13,61 @@ class Feedback extends Component {
     this.restartGame = this.restartGame.bind(this);
     this.renderFeedback = this.renderFeedback.bind(this);
 
-    this.state = ({ redirect: false });
+    this.state = ({
+      redirect: false,
+      ranking: false,
+    });
   }
 
   restartGame() {
     const { resetScoreHandler, willPlayAgainHandler } = this.props;
-    resetScoreHandler();
+    
     willPlayAgainHandler();
-    this.setState({ redirect: true });
+    this.setState((prevState) => ({
+      ...prevState,
+      redirect: true,
+    }));
   }
 
-  renderFeedback() {
-    const { player: { name, gravatarEmail, score, assertions } } = this.props;
-    const AVERAGE = 3;
+  rankingScreen() {
+    this.setState((prevState) => ({
+      ...prevState,
+      ranking: true,
+    }));
+  }
 
+  storeDataToRanking(name, score, picture) {
+    const { resetScoreHandler } = this.props;
+    // resetScoreHandler();
+    const token = picture.split('/', 5)[4];
+    const newData = { name, score, picture };
+    if ( 'ranking' in localStorage) {
+    const prevData = JSON.parse(localStorage.getItem('ranking'));
+    console.log(prevData);
+    prevData.forEach((data, index)=>{
+      const compareToken = data.picture.split('/', 5)[4];
+      console.log(token === compareToken);
+      if (token === compareToken) {
+        console.log(prevData);
+        prevData.splice(index, 1);
+        // delete prevData(index); 
+        // prevData[index] = newData;
+        
+        console.log(prevData);
+      }
+    })
+    localStorage.setItem('ranking', JSON.stringify(
+      [...prevData, newData],
+    ));
+    } 
+    else {
+      localStorage.setItem('ranking', JSON.stringify([newData]));
+    }
+  }
+
+  renderButtons() {
     return (
-      <div className="feedback-container">
-        <Header
-          name={ name }
-          gravatar={ gravatarEmail }
-          score={ score }
-          assertions={ assertions }
-          toRender="feedback"
-        />
-        <h1 className="feedback-message" data-testid="feedback-text">
-          { assertions >= AVERAGE ? 'Mandou bem!' : 'Podia ser melhor...'}
-        </h1>
+      <div>
         <div className="play-again-container" data-testid="btn-play-again">
           <button
             type="button"
@@ -62,14 +91,46 @@ class Feedback extends Component {
             extension
           </button>
         </div>
+        <div>
+          <button
+            type="button"
+            data-testid="btn-ranking"
+            onClick={ () => this.rankingScreen() }
+          >
+            Ver Ranking
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  renderFeedback() {
+    const { player: { name, gravatarEmail, score, assertions } } = this.props;
+    this.storeDataToRanking(name, score, gravatarEmail);
+    const AVERAGE = 3;
+    
+    return (
+      <div className="feedback-container">
+        <Header
+          name={ name }
+          gravatar={ gravatarEmail }
+          score={ score }
+          assertions={ assertions }
+          toRender="feedback"
+        />
+        <h1 className="feedback-message" data-testid="feedback-text">
+          { assertions >= AVERAGE ? 'Mandou bem!' : 'Podia ser melhor...'}
+        </h1>
+        { this.renderButtons() }
       </div>
     );
   }
 
   render() {
-    const { redirect } = this.state;
+    const { redirect, ranking } = this.state;
 
-    if (redirect) return <Redirect to="/game" />;
+    // if (redirect) return <Redirect to="/game" />;
+    if (ranking) return <Redirect to="/ranking" />;
 
     return (this.renderFeedback());
   }
