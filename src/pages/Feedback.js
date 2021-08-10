@@ -37,21 +37,22 @@ class Feedback extends Component {
   }
 
   storeDataToRanking(name, score, picture) {
-    const token = picture.split('/', 5)[4];
+    const qtd = 5;
+    const token = picture.split('/', qtd)[4];
     const newData = { name, score, picture };
     if ( 'ranking' in localStorage) {
-    const prevData = JSON.parse(localStorage.getItem('ranking'));
-    prevData.forEach((data, index)=>{
-      const compareToken = data.picture.split('/', 5)[4];
+      const prevData = JSON.parse(localStorage.getItem('ranking'));
+      prevData.forEach((data, index) => {
+      const compareToken = data.picture.split('/', qtd)[4];
       if (token === compareToken) {
         prevData.splice(index, 1);
         console.log(prevData);
       }
-    })
-    localStorage.setItem('ranking', JSON.stringify(
+    });
+      localStorage.setItem('ranking', JSON.stringify(
       [...prevData, newData],
     ));
-    } 
+    }
     else {
       localStorage.setItem('ranking', JSON.stringify([newData]));
     }
@@ -120,8 +121,7 @@ class Feedback extends Component {
 
   render() {
     const { redirect, ranking } = this.state;
-
-    // if (redirect) return <Redirect to="/game" />;
+    if (redirect) return <Redirect to="/game" />;
     if (ranking) return <Redirect to="/ranking" />;
 
     return (this.renderFeedback());
