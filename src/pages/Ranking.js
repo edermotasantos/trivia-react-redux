@@ -28,12 +28,11 @@ class Ranking extends Component {
               <td data-testid={ `player-score-${index}` }>{score}</td>
             </tr>
           )) : null }
-      </tbody>          
+      </tbody>
     );
   }
 
   render() {
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
     const { isRedirecting } = this.state;
     return (
       <>
@@ -41,15 +40,16 @@ class Ranking extends Component {
         <div>{ this.rankingList() }</div>
         <div>
           { (isRedirecting) ? <Redirect to="/" /> : (
-            <button type="button" 
-              data-testid="btn-go-home" 
+            <button
+              type="button"
+              data-testid="btn-go-home"
               onClick={ this.handleClick }
             >
               home
             </button>
           )}
         </div>
-    </>
+      </>
     );
   }
 }
