@@ -21,7 +21,7 @@ class Feedback extends Component {
 
   restartGame() {
     const { resetScoreHandler, willPlayAgainHandler } = this.props;
-    
+    resetScoreHandler();
     willPlayAgainHandler();
     this.setState((prevState) => ({
       ...prevState,
@@ -37,22 +37,14 @@ class Feedback extends Component {
   }
 
   storeDataToRanking(name, score, picture) {
-    const { resetScoreHandler } = this.props;
-    // resetScoreHandler();
     const token = picture.split('/', 5)[4];
     const newData = { name, score, picture };
     if ( 'ranking' in localStorage) {
     const prevData = JSON.parse(localStorage.getItem('ranking'));
-    console.log(prevData);
     prevData.forEach((data, index)=>{
       const compareToken = data.picture.split('/', 5)[4];
-      console.log(token === compareToken);
       if (token === compareToken) {
-        console.log(prevData);
         prevData.splice(index, 1);
-        // delete prevData(index); 
-        // prevData[index] = newData;
-        
         console.log(prevData);
       }
     })
