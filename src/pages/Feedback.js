@@ -52,8 +52,7 @@ class Feedback extends Component {
       localStorage.setItem('ranking', JSON.stringify(
         [...prevData, newData],
       ));
-    }
-    else {
+    } else {
       localStorage.setItem('ranking', JSON.stringify([newData]));
     }
   }
