@@ -22,6 +22,7 @@ class Game extends Component {
     this.submitAnswer = this.submitAnswer.bind(this);
     this.renderGame = this.renderGame.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
+    this.setCustomQuestions = this.setCustomQuestions.bind(this);
 
     this.state = {
       questions: [],
@@ -33,21 +34,32 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    api.fethApi().then((questions) => {
-      this.setState({ questions });
-      this.prepareTrivia();
-    });
+    const { game: { configuration } } = this.props;
+    if (configuration === 'default') {
+      api.fethApi().then((questions) => {
+        this.setState({ questions });
+      });
+    }
+    if (configuration === 'custom') this.setCustomQuestions();
   }
 
-  componentDidUpdate() {
-    const { isPlaying, isTiming, timer } = this.state;
+  componentDidUpdate(prevProps, prevState) {
+    const { isPlaying, isTiming, timer, questions } = this.state;
 
+    if (prevState.questions !== questions && prevState.questions.length === 0) {
+      this.prepareTrivia();
+    }
     if (isPlaying && isTiming) this.startTimer();
     if (timer === 0) {
       this.stopTimer();
       util.disableAnswers(true);
       util.changeColor(true);
     }
+  }
+
+  setCustomQuestions() {
+    const { game: { questions } } = this.props;
+    this.setState({ questions });
   }
 
   prepareTrivia() {
@@ -97,7 +109,6 @@ class Game extends Component {
   calculateScore(timer, difficultyLevel) {
     const { setUpdateScoreHandler } = this.props;
     const calculatedScore = util.calculateScore(timer, difficultyLevel);
-    // console.log(calculatedScore);
     setUpdateScoreHandler({ score: calculatedScore });
   }
 
@@ -151,7 +162,7 @@ class Game extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ player: state.player });
+const mapStateToProps = (state) => ({ player: state.player, game: state.game });
 
 const mapDispatchToProps = (dispatch) => ({
   setUpdateScoreHandler: (scoreInfo) => dispatch(setUpdateScore(scoreInfo)),
@@ -162,6 +173,10 @@ Game.propTypes = {
     name: PropTypes.string,
     gravatarEmail: PropTypes.string,
     score: PropTypes.number,
+  }).isRequired,
+  game: PropTypes.shape({
+    configuration: PropTypes.string,
+    questions: PropTypes.arrayOf(PropTypes.shape()),
   }).isRequired,
   setUpdateScoreHandler: PropTypes.func.isRequired,
 };

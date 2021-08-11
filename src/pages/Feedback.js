@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { resetScore, willPlayAgain } from '../actions';
+import { resetScore, willPlayAgain, fetchQuestions } from '../actions';
 import { Header } from '../components';
 import './Feedback.css';
 
@@ -11,56 +11,53 @@ class Feedback extends Component {
     super(props);
 
     this.restartGame = this.restartGame.bind(this);
+    this.resetScoreStorage = this.resetScoreStorage.bind(this);
+    this.rankingScreen = this.rankingScreen.bind(this);
     this.renderFeedback = this.renderFeedback.bind(this);
 
-    this.state = ({
-      redirect: false,
-      ranking: false,
-    });
+    this.state = { option: '' };
+  }
+
+  componentDidMount() {
+    const { getCustomQuestionsHandler } = this.props;
+    const { lastConfig } = sessionStorage;
+    const { token } = localStorage;
+    getCustomQuestionsHandler(lastConfig, token);
   }
 
   restartGame() {
     const { resetScoreHandler, willPlayAgainHandler } = this.props;
-    
+    resetScoreHandler();
     willPlayAgainHandler();
-    this.setState((prevState) => ({
-      ...prevState,
-      redirect: true,
-    }));
+    this.resetScoreStorage();
+    this.setState({ option: 'restart' });
   }
 
   rankingScreen() {
-    this.setState((prevState) => ({
-      ...prevState,
-      ranking: true,
-    }));
+    const { resetScoreHandler } = this.props;
+    resetScoreHandler();
+    this.setState({ option: 'ranking' });
+  }
+
+  resetScoreStorage() {
+    const retrieve = JSON.parse(localStorage.getItem('state'));
+    retrieve.player.assertions = 0;
+    retrieve.player.score = 0;
+    localStorage.state = JSON.stringify(retrieve);
   }
 
   storeDataToRanking(name, score, picture) {
-    const { resetScoreHandler } = this.props;
-    // resetScoreHandler();
-    const token = picture.split('/', 5)[4];
+    const TOKEN_ADJUST = 5;
+    const token = picture.split('/', TOKEN_ADJUST)[4];
     const newData = { name, score, picture };
-    if ( 'ranking' in localStorage) {
-    const prevData = JSON.parse(localStorage.getItem('ranking'));
-    console.log(prevData);
-    prevData.forEach((data, index)=>{
-      const compareToken = data.picture.split('/', 5)[4];
-      console.log(token === compareToken);
-      if (token === compareToken) {
-        console.log(prevData);
-        prevData.splice(index, 1);
-        // delete prevData(index); 
-        // prevData[index] = newData;
-        
-        console.log(prevData);
-      }
-    })
-    localStorage.setItem('ranking', JSON.stringify(
-      [...prevData, newData],
-    ));
-    } 
-    else {
+    if ('ranking' in localStorage) {
+      const prevData = JSON.parse(localStorage.getItem('ranking'));
+      prevData.forEach((data, index) => {
+        const compareToken = data.picture.split('/', TOKEN_ADJUST)[4];
+        if (token === compareToken) prevData.splice(index, 1);
+      });
+      localStorage.setItem('ranking', JSON.stringify([...prevData, newData]));
+    } else {
       localStorage.setItem('ranking', JSON.stringify([newData]));
     }
   }
@@ -106,9 +103,10 @@ class Feedback extends Component {
 
   renderFeedback() {
     const { player: { name, gravatarEmail, score, assertions } } = this.props;
-    this.storeDataToRanking(name, score, gravatarEmail);
     const AVERAGE = 3;
-    
+
+    this.storeDataToRanking(name, score, gravatarEmail);
+
     return (
       <div className="feedback-container">
         <Header
@@ -127,12 +125,12 @@ class Feedback extends Component {
   }
 
   render() {
-    const { redirect, ranking } = this.state;
-
-    // if (redirect) return <Redirect to="/game" />;
-    if (ranking) return <Redirect to="/ranking" />;
-
-    return (this.renderFeedback());
+    const { option } = this.state;
+    switch (option) {
+    case 'restart': return <Redirect to="/game" />;
+    case 'ranking': return <Redirect to="ranking" />;
+    default: return this.renderFeedback();
+    }
   }
 }
 
@@ -141,6 +139,7 @@ const mapStateToProps = (state) => ({ player: state.player });
 const mapDispatchToProps = (dispatch) => ({
   resetScoreHandler: () => dispatch(resetScore()),
   willPlayAgainHandler: () => dispatch(willPlayAgain()),
+  getCustomQuestionsHandler: (config, token) => dispatch(fetchQuestions(config, token)),
 });
 
 Feedback.propTypes = {
@@ -152,6 +151,7 @@ Feedback.propTypes = {
   }).isRequired,
   resetScoreHandler: PropTypes.func.isRequired,
   willPlayAgainHandler: PropTypes.func.isRequired,
+  getCustomQuestionsHandler: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

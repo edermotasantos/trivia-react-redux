@@ -93,10 +93,14 @@ Header.propTypes = {
   gravatar: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   toRender: PropTypes.string.isRequired,
-  assertions: PropTypes.number.isRequired,
+  assertions: PropTypes.number,
   player: PropTypes.shape({
     playAgain: PropTypes.bool,
   }).isRequired,
+};
+
+Header.defaultProps = {
+  assertions: undefined,
 };
 
 export default connect(mapStateToProps, null)(Header);

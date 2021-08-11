@@ -7,9 +7,15 @@ const WRONG = 'wrong-answer';
 
 export function formatQuestions(questions) {
   const formatAnswers = questions.map((answer) => [{
-    correct: { value: answer.correct_answer, id: CORRECT },
+    correct: { value: answer.correct_answer.replaceAll('&amp;', '&')
+      .replaceAll('&quot;', '"').replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>'),
+    id: CORRECT },
     incorrect: answer.incorrect_answers.map((incorrect, index) => (
-      { value: incorrect, id: `wrong-answer-${index}` }
+      { value: incorrect.replaceAll('&amp;', '&').replaceAll('&quot;', '"')
+        .replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>'),
+      id: `wrong-answer-${index}` }
     )),
   }]);
   const spreadAnswers = formatAnswers.map((answer) => [

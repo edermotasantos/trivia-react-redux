@@ -29,6 +29,7 @@ class Login extends React.Component {
     if (email !== prevState.email || name !== prevState.name) {
       this.verifyLogin();
     }
+    sessionStorage.lastConfig = '';
   }
 
   handleChange({ target: { name, value } }) {
