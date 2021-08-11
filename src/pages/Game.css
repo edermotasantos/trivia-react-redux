@@ -1,13 +1,32 @@
 .game-container {
+  margin-top: 0%;
+  margin-bottom: 0%;
+  animation: gradient 15s infinite;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab) no-repeat;
+  background-size: 300% 300%;
   align-items: center;
-  border: solid 3px white;
   display: flex;
   flex-direction: column;
-  padding-bottom: 1em;
   width: 60%;
+  
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0 50%
+  }
+  50%{
+    background-position:100% 50%
+
+  }
+  100%{
+    background-position: 0 50%;
+
+  }
 }
 
 .game-header {
+  color: #e73c7e;
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -15,8 +34,6 @@
 
 .next-container {
   align-items: center;
-  background-color: white;
-  border-radius: 3px;
   display: none;
   flex-direction: column;
   height: 1.8em;
@@ -27,6 +44,7 @@
 }
 
 .next {
+  /* background-color: red; */
   border: transparent;
   color: rgb(40, 44, 52);
   font-weight: 600;
@@ -34,7 +52,7 @@
   width: 100%;
 }
 
-.title {
+.title  h1{
   font-size: 2em;
   margin: 0.5em auto;
 }
@@ -53,7 +71,7 @@
 }
 
 .player-image {
-  background-color: white;
+  background-color:transparent;
   border: solid 2px  white;
   border-radius: 50%;
   color: rgb(40, 44, 52);
@@ -63,18 +81,22 @@
 }
 
 .player-score {
+  font-family: 'Courier New', Courier, monospace;
+  color: rgba(24, 26, 24, 0.672);
   font-size: 1.5em;
   margin: auto;
   margin-left: 2em;
   order: 3;
 }
 
-.question-container {
+.question-container {  
+  
   display: flex;
   flex-direction: column;
 }
 
 .question-category-timer {
+  color: white;
   align-items: center;
   display: flex;
   flex-direction: row;
@@ -82,12 +104,18 @@
 }
 
 .question-category {
+  color: rgba(24, 26, 24, 0.672);
   font-size: 1em;
 
 }
 
 .question-text {
-  border: dotted 2px white;
+  font-family: 'Courier New', Courier, monospace;
+  background-color:transparent;
+  box-shadow: 0px 0px 15px currentcolor;
+  border: 5px solid currentcolor;
+  border: dotted 1px rgb(49, 83, 111);
+  color: #e73c7e border 1px solid black;  
   font-size: 1em;
   font-weight: 600;
   margin: 1em auto;
@@ -96,8 +124,9 @@
 }
 
 .timer-container {
+  font-family: 'Courier New', Courier, monospace;
   align-items: center;
-  background-color: white;
+  background-color: transparent;
   border-radius: 50px;
   display: flex;
   flex-direction: column;
@@ -119,10 +148,10 @@
 }
 
 .btn {
-  background-color: white;
-  border: solid 3px white;
-  border-radius: 5px;
-  color: rgb(40, 44, 52);
+  background-color:transparent;
+  box-shadow: 0px 0px 15px currentcolor;
+  border: 5px solid currentcolor;  
+  border-radius: 5px;  
   font-size: 0.6em;
   font-weight: 600;
   margin: 0.5em 0;
