@@ -10,7 +10,6 @@ class Question extends Component {
     const CORRECT = 'correct-answer';
 
     if (question > MAX_QUESTIONS) return <Redirect to="/feedback" />;
-
     return (
       <>
         <div className="question-container">

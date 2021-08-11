@@ -7,9 +7,15 @@ const WRONG = 'wrong-answer';
 
 export function formatQuestions(questions) {
   const formatAnswers = questions.map((answer) => [{
-    correct: { value: answer.correct_answer, id: CORRECT },
+    correct: { value: answer.correct_answer.replaceAll('&amp;', '&')
+      .replaceAll('&quot;', '"').replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>'),
+    id: CORRECT },
     incorrect: answer.incorrect_answers.map((incorrect, index) => (
-      { value: incorrect, id: `wrong-answer-${index}` }
+      { value: incorrect.replaceAll('&amp;', '&').replaceAll('&quot;', '"')
+        .replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>'),
+      id: `wrong-answer-${index}` }
     )),
   }]);
   const spreadAnswers = formatAnswers.map((answer) => [
@@ -45,10 +51,10 @@ export function calculateScore(timer, difficultyLevel) {
   const CONST = 10;
   const difficulty = identifyDifficulty(difficultyLevel);
   const addToScore = parseInt(`${CONST + (timer * difficulty)}`, 10);
-  console.log(`${CONST} + (${timer} * ${difficulty}) = ${addToScore}`);
+  // console.log(`${CONST} + (${timer} * ${difficulty}) = ${addToScore}`);
   const retrievePlayer = JSON.parse(localStorage.getItem('state'));
   const currentScore = parseInt(retrievePlayer.player.score, 10);
-  console.log(`${currentScore} + ${addToScore} = ${currentScore + addToScore}`);
+  // console.log(`${currentScore} + ${addToScore} = ${currentScore + addToScore}`);
   retrievePlayer.player.score = currentScore + addToScore;
   retrievePlayer.player.assertions += 1;
   localStorage.setItem('state', JSON.stringify(retrievePlayer));
