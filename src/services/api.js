@@ -15,7 +15,6 @@ export const fethApi = async () => {
 };
 
 export function getGravatar(email) {
-  console.log(md5('gscuri@gmail.com').toString());
   const emailHash = md5(email).toString();
   const gravatarLink = `${URL_GRAVATAR}${emailHash}`;
   return gravatarLink;
