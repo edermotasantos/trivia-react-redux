@@ -61,7 +61,7 @@ class Login extends React.Component {
     return (
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
-        <p>SUA VEZ</p>
+        <p>VALENDO 1 MILÃO DE REAIS !!!</p>
         <form className="login">
           <label htmlFor="input-text">
             <input

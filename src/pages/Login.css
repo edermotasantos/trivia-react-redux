@@ -3,6 +3,12 @@
   flex-direction: column;
 }
 
+.App-logo{
+  animation: game 10s infinite;
+  box-shadow: 0px 0px 15px currentcolor;
+  background-color: red;
+}
+
 #input-text {
   border-radius: 8px;
   background-color: #2d1133;
@@ -11,8 +17,9 @@
   font-size: 10px;
   padding: 5px 2px;
 }
-.App-logo{
-  animation: game 10s infinite;
+
+.App-header{
+  /*  */
   color: rgb(189, 73, 73); 
 }
 
