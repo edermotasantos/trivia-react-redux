@@ -40,18 +40,18 @@ class Feedback extends Component {
     const qtd = 5;
     const token = picture.split('/', qtd)[4];
     const newData = { name, score, picture };
-    if ( 'ranking' in localStorage) {
+    if ('ranking' in localStorage) {
       const prevData = JSON.parse(localStorage.getItem('ranking'));
       prevData.forEach((data, index) => {
-      const compareToken = data.picture.split('/', qtd)[4];
-      if (token === compareToken) {
-        prevData.splice(index, 1);
-        console.log(prevData);
-      }
-    });
+        const compareToken = data.picture.split('/', qtd)[4];
+        if (token === compareToken) {
+          prevData.splice(index, 1);
+          console.log(prevData);
+        }
+      });
       localStorage.setItem('ranking', JSON.stringify(
-      [...prevData, newData],
-    ));
+        [...prevData, newData],
+      ));
     }
     else {
       localStorage.setItem('ranking', JSON.stringify([newData]));
@@ -101,7 +101,7 @@ class Feedback extends Component {
     const { player: { name, gravatarEmail, score, assertions } } = this.props;
     this.storeDataToRanking(name, score, gravatarEmail);
     const AVERAGE = 3;
-    
+
     return (
       <div className="feedback-container">
         <Header
