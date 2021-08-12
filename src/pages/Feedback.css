@@ -38,17 +38,29 @@
   margin: auto 1em;
 }
 
+.options-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 7em;
+  justify-content: center;
+}
+
 .play-again-container {
   align-items: center;
   background-color: transparent;
   border: solid 4px white;
   border-radius: 15px;
-  box-shadow: 0 0 15px currentColor;
+  box-shadow: 0 0 10px currentColor;
   display: flex;
   flex-direction: row;
   margin: auto;
   max-width: max-content;
   padding: 0 0.2em;
+}
+
+.play-again-container:hover {
+  background-color: white;
 }
 
 .play-again {
@@ -60,8 +72,10 @@
 }
 
 .play-again:hover {
-  background-color: transparent;
+  background-color: white;
   box-shadow: none;
+  color: transparent;
+  z-index: 2;
 }
 
 .play-again-label {
@@ -75,15 +89,103 @@
 }
 
 .play-again-label:hover {
-  background-color: transparent;
+  background-color: white;
   box-shadow: none;
+  color: rgb(45, 17, 51);
+}
+
+.ranking-btn-container {
+  align-items: center;
+  background-color: transparent;
+  border: solid 4px white;
+  border-radius: 15px;
+  box-shadow: 0 0 10px currentColor;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  max-width: max-content;
+  padding: 0 0.2em;
+}
+
+.ranking-btn-container:hover {
+  background-color: white;
+}
+
+.btn-ranking {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  color: white;
+  font-size: 1em;
+}
+
+.btn-ranking:hover {
+  background-color: white;
+  box-shadow: none;
+  color: transparent;
+  z-index: 2;
+}
+
+.btn-ranking-label {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  color: white;
+  font-size: 0.6em;
+  font-weight: 600;
+  height: 2.5em;
+}
+
+.btn-ranking-label:hover {
+  background-color: white;
+  box-shadow: none;
+  color: rgb(45, 17, 51);
+}
+
+.home-btn-container {
+  align-items: center;
+  background-color: transparent;
+  border: solid 4px white;
+  border-radius: 15px;
+  box-shadow: 0 0 10px currentColor;
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  max-width: max-content;
+  padding: 0 0.2em;
+}
+
+.home-btn-container:hover {
+  background-color: white;
 }
 
 .btn-home {
   background-color: transparent;
-  border: solid 4px white;
-  border-radius: 15px;
-  box-shadow: 0 0 15px currentColor;
+  border: transparent;
+  box-shadow: none;
   color: white;
-  margin-top: 3px;
+  font-size: 1em;
+}
+
+.btn-home:hover {
+  background-color: white;
+  box-shadow: none;
+  color: transparent;
+  z-index: 2;
+}
+
+.btn-home-label {
+  background-color: transparent;
+  border: transparent;
+  box-shadow: none;
+  color: white;
+  font-size: 0.6em;
+  font-weight: 600;
+  height: 2.5em;
+}
+
+.btn-home-label:hover {
+  background-color: white;
+  box-shadow: none;
+  color: rgb(45, 17, 51);
 }

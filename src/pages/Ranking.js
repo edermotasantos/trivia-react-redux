@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import './Ranking.css';
 
 class Ranking extends Component {
   constructor(props) {
@@ -40,13 +41,30 @@ class Ranking extends Component {
         <div>{ this.rankingList() }</div>
         <div>
           { (isRedirecting) ? <Redirect to="/" /> : (
-            <button
-              type="button"
-              data-testid="btn-go-home"
-              onClick={ this.handleClick }
-            >
-              Início
-            </button>
+            <div className="rank-home-btn-container">
+              <button
+                type="button"
+                className="rank-btn-home material-icons"
+                onClick={ () => this.handleClick() }
+              >
+                home
+              </button>
+              <button
+                type="button"
+                className="btn-home-label"
+                data-testid="btn-go-home"
+                onClick={ () => this.handleClick() }
+              >
+                HOME
+              </button>
+              <button
+                type="button"
+                className="btn-home material-icons"
+                onClick={ () => this.handleClick() }
+              >
+                home
+              </button>
+            </div>
           )}
         </div>
       </>
