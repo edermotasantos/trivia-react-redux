@@ -17,11 +17,14 @@ class Login extends React.Component {
       isDisable: true,
       token: '',
       gravatar: '',
+      startMusic: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
+    this.renderInitial = this.renderInitial.bind(this);
+    this.renderEnd = this.renderEnd.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -47,7 +50,10 @@ class Login extends React.Component {
   }
 
   validateLogin() {
-    const { player: { assertions, score }, changePlayerInfoHandler } = this.props;
+    const {
+      player: { assertions, score },
+      changePlayerInfoHandler,
+    } = this.props;
     const { name, email } = this.state;
     const gravatarEmail = api.getGravatar(email);
     api.fethApi();
@@ -56,37 +62,44 @@ class Login extends React.Component {
     changePlayerInfoHandler({ name, gravatarEmail });
   }
 
-  render() {
-    const { name, email, isDisable } = this.state;
+  renderInitial() {
+    const { name, email } = this.state;
     return (
-      <header className="App-header">
-        <img src={ logo } className="App-logo" alt="logo" />
-        <p>SUA VEZ</p>
-        <form className="login">
-          <label htmlFor="input-text">
-            <input
-              value={ name }
-              name="name"
-              type="text"
-              placeholder="Digite seu Nome"
-              data-testid="input-player-name"
-              id="input-text"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="input-email">
-            <input
-              value={ email }
-              name="email"
-              type="email"
-              data-testid="input-gravatar-email"
-              placeholder="Digite seu Email"
-              id="input-email"
-              onChange={ this.handleChange }
-            />
-          </label>
+      <>
+        <label htmlFor="input-text">
+          <input
+            value={ name }
+            name="name"
+            type="text"
+            placeholder="Digite seu Nome"
+            data-testid="input-player-name"
+            className="input-text"
+            onChange={ this.handleChange }
+          />
+        </label>
+        <label htmlFor="input-email">
+          <input
+            value={ email }
+            name="email"
+            type="email"
+            data-testid="input-gravatar-email"
+            placeholder="Digite seu Email"
+            className="input-email"
+            onChange={ this.handleChange }
+          />
+        </label>
+      </>
+    );
+  }
+
+  renderEnd() {
+    const { isDisable } = this.state;
+    return (
+      <div className="options-menu">
+        <div className="jogar-container">
           <Link to="/game">
             <button
+              className="btn-container btn-play"
               onClick={ this.validateLogin }
               disabled={ isDisable }
               type="submit"
@@ -95,16 +108,33 @@ class Login extends React.Component {
               Jogar
             </button>
           </Link>
+        </div>
+        <div className="jogar-container">
           <Link to="/Settings">
             <button
+              className="btn-container"
               data-testid="btn-settings"
               type="button"
             >
               Configurações
             </button>
           </Link>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <header className="App-header">
+        <img src={ logo } className="App-logo" alt="logo" />
+        <p>VALENDO 1 MILÃO DE REAIS !!!</p>
+        <form className="login">
+          {this.renderInitial()}
+          {this.renderEnd()}
         </form>
-      </header>);
+      </header>
+    );
   }
 }
 

@@ -4,6 +4,7 @@ const HARD = 3;
 const RAND = 0.7;
 const CORRECT = 'correct-answer';
 const WRONG = 'wrong-answer';
+const TIMER = '.timer-container';
 
 export function formatQuestions(questions) {
   const formatAnswers = questions.map((answer) => [{
@@ -87,12 +88,16 @@ export function changeColor(isChange) {
 
 export function adjustTimerStyle(isAdjust) {
   if (isAdjust) {
-    document.querySelector('.timer-container').style.backgroundColor = 'transparent';
+    document.querySelector(TIMER).style.backgroundColor = 'transparent';
+    document.querySelector(TIMER).style.borderStyle = 'none';
+    document.querySelector(TIMER).style.boxShadow = 'none';
     const timerAdjust = 'background-color: white; border-radius: 5px; padding: 0.2em;';
     const timerContainer = document.querySelector('.timer');
     timerContainer.style.cssText = timerAdjust;
   } else {
-    document.querySelector('.timer-container').style.backgroundColor = '';
+    document.querySelector(TIMER).style.backgroundColor = '';
+    document.querySelector(TIMER).style.borderStyle = '';
+    document.querySelector(TIMER).style.boxShadow = '';
     const timerContainer = document.querySelector('.timer');
     timerContainer.style.cssText = '';
   }

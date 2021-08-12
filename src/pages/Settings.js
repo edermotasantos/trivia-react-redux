@@ -115,7 +115,12 @@ class Settings extends Component {
     case false:
       return (
         <div>
-          <h1 data-testid="settings-title">Configurações</h1>
+          <h1
+            className="text-config"
+            data-testid="settings-title"
+          >
+            Configurações
+          </h1>
           <div className="configuration-menu">
             { this.renderCategoryConfig() }
             { this.renderDifficultyConfig() }

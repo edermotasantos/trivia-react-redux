@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { resetScore, willPlayAgain, fetchQuestions } from '../actions';
-import { Header } from '../components';
+import { Header, Mp3 } from '../components';
+import { acertouPouco, foiBem } from '../audio';
 import './Feedback.css';
 
 class Feedback extends Component {
@@ -11,8 +12,13 @@ class Feedback extends Component {
     super(props);
 
     this.restartGame = this.restartGame.bind(this);
-    this.resetScoreStorage = this.resetScoreStorage.bind(this);
     this.rankingScreen = this.rankingScreen.bind(this);
+    this.goHome = this.goHome.bind(this);
+    this.renderButtons = this.renderButtons.bind(this);
+    this.renderRestartButtons = this.renderRestartButtons.bind(this);
+    this.renderRankingButtons = this.renderRankingButtons.bind(this);
+    this.renderHomeButtons = this.renderHomeButtons.bind(this);
+    this.resetScoreStorage = this.resetScoreStorage.bind(this);
     this.renderFeedback = this.renderFeedback.bind(this);
 
     this.state = { option: '' };
@@ -39,6 +45,10 @@ class Feedback extends Component {
     this.setState({ option: 'ranking' });
   }
 
+  goHome() {
+    this.setState({ option: 'home' });
+  }
+
   resetScoreStorage() {
     const retrieve = JSON.parse(localStorage.getItem('state'));
     retrieve.player.assertions = 0;
@@ -62,41 +72,101 @@ class Feedback extends Component {
     }
   }
 
+  renderRestartButtons() {
+    return (
+      <div className="play-again-container" data-testid="btn-play-again">
+        <button
+          type="button"
+          className="play-again material-icons"
+          onClick={ () => this.restartGame() }
+        >
+          replay_circle_filled
+        </button>
+        <button
+          type="button"
+          className="play-again-label"
+          onClick={ () => this.restartGame() }
+        >
+          JOGAR NOVAMENTE
+        </button>
+        <button
+          type="button"
+          className="play-again material-icons"
+          onClick={ () => this.restartGame() }
+        >
+          extension
+        </button>
+      </div>
+    );
+  }
+
+  renderRankingButtons() {
+    return (
+      <div className="ranking-btn-container">
+        <button
+          type="button"
+          className="btn-ranking material-icons"
+          onClick={ () => this.rankingScreen() }
+        >
+          military_tech
+        </button>
+        <button
+          type="button"
+          className="btn-ranking-label"
+          data-testid="btn-ranking"
+          onClick={ () => this.rankingScreen() }
+        >
+          RANKING
+        </button>
+        <button
+          type="button"
+          className="btn-ranking material-icons"
+          onClick={ () => this.rankingScreen() }
+        >
+          military_tech
+        </button>
+      </div>
+    );
+  }
+
+  renderHomeButtons() {
+    return (
+      <div className="home-btn-container">
+        <button
+          type="button"
+          className="btn-home material-icons"
+          data-testid="btn-go-home"
+          onClick={ () => this.goHome() }
+        >
+          home
+        </button>
+        <button
+          type="button"
+          className="btn-home-label"
+          data-testid="btn-go-home"
+          onClick={ () => this.goHome() }
+        >
+          HOME
+        </button>
+        <button
+          type="button"
+          className="btn-home material-icons"
+          data-testid="btn-go-home"
+          onClick={ () => this.goHome() }
+        >
+          home
+        </button>
+      </div>
+    );
+  }
+
   renderButtons() {
     return (
-      <div>
-        <div className="play-again-container" data-testid="btn-play-again">
-          <button
-            type="button"
-            className="play-again material-icons"
-            onClick={ () => this.restartGame() }
-          >
-            replay_circle_filled
-          </button>
-          <button
-            type="button"
-            className="play-again-label"
-            onClick={ () => this.restartGame() }
-          >
-            JOGAR NOVAMENTE
-          </button>
-          <button
-            type="button"
-            className="play-again material-icons"
-            onClick={ () => this.restartGame() }
-          >
-            extension
-          </button>
-        </div>
-        <div>
-          <button
-            type="button"
-            data-testid="btn-ranking"
-            onClick={ () => this.rankingScreen() }
-          >
-            Ver Ranking
-          </button>
-        </div>
+      <div className="options-container">
+        { this.renderRestartButtons() }
+        { this.renderRankingButtons() }
+        { this.renderHomeButtons() }
+
       </div>
     );
   }
@@ -119,6 +189,13 @@ class Feedback extends Component {
         <h1 className="feedback-message" data-testid="feedback-text">
           { assertions >= AVERAGE ? 'Mandou bem!' : 'Podia ser melhor...'}
         </h1>
+        <div>
+          { assertions >= AVERAGE ? (
+            <Mp3 musicPath={ foiBem } />
+          ) : (
+            <Mp3 musicPath={ acertouPouco } />
+          ) }
+        </div>
         { this.renderButtons() }
       </div>
     );
@@ -129,6 +206,7 @@ class Feedback extends Component {
     switch (option) {
     case 'restart': return <Redirect to="/game" />;
     case 'ranking': return <Redirect to="ranking" />;
+    case 'home': return <Redirect to="/" />;
     default: return this.renderFeedback();
     }
   }
