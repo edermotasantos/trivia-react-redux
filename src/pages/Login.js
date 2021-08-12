@@ -17,6 +17,7 @@ class Login extends React.Component {
       isDisable: true,
       token: '',
       gravatar: '',
+      startMusic: false,
     };
 
     this.handleChange = this.handleChange.bind(this);

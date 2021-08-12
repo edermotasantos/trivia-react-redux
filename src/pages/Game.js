@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setUpdateScore } from '../actions';
-import { Header, Question } from '../components';
+import { Header, Question, Mp3 } from '../components';
+import { quemQuerSerAbertura, acertou, errou, tempoAcabou } from '../audio';
 import * as api from '../services/api';
 import * as util from '../util/util';
 import './Game.css';
@@ -10,6 +11,9 @@ import './Game.css';
 const TIMER = 30;
 const MAX_QUESTIONS = 4;
 const CORRECT = 'correct-answer';
+const ACERTOU = 'acertou';
+const ERROU = 'errou';
+const ESGOTOU = 'esgotou';
 
 class Game extends Component {
   constructor(props) {
@@ -23,6 +27,7 @@ class Game extends Component {
     this.renderGame = this.renderGame.bind(this);
     this.changeQuestion = this.changeQuestion.bind(this);
     this.setCustomQuestions = this.setCustomQuestions.bind(this);
+    this.switchMusic = this.switchMusic.bind(this);
 
     this.state = {
       questions: [],
@@ -30,6 +35,7 @@ class Game extends Component {
       isTiming: false,
       isPlaying: false,
       timer: TIMER,
+      soundEffect: '',
     };
   }
 
@@ -51,7 +57,7 @@ class Game extends Component {
     }
     if (isPlaying && isTiming) this.startTimer();
     if (timer === 0) {
-      this.stopTimer();
+      this.stopTimer('end');
       util.disableAnswers(true);
       util.changeColor(true);
     }
@@ -86,8 +92,15 @@ class Game extends Component {
     if (question < MAX_QUESTIONS) this.startTimer();
   }
 
-  stopTimer() {
+  stopTimer(type) {
     clearInterval(this.gameTimer);
+    if (type === 'end') {
+      this.setState({
+        timer: 'Tempo ESGOTADO!',
+        soundEffect: ESGOTOU,
+      });
+      util.adjustTimerStyle(true);
+    }
   }
 
   submitAnswer({ target: { className, id } }) {
@@ -95,13 +108,18 @@ class Game extends Component {
     util.disableAnswers(true);
     util.changeColor(true);
     this.stopTimer();
-    if (timer === 0) this.setState({ timer: 'Tempo ESGOTADO!' });
     if (className.split(' ', 2)[1] === CORRECT) {
       this.calculateScore(timer, id);
-      this.setState({ timer: 'ACERTOU!' });
+      this.setState({
+        timer: 'ACERTOU!',
+        soundEffect: ACERTOU,
+      });
       util.adjustTimerStyle(true);
     } else {
-      this.setState({ timer: 'ERROU!' });
+      this.setState({
+        timer: 'ERROU!',
+        soundEffect: ERROU,
+      });
       util.adjustTimerStyle(true);
     }
   }
@@ -117,7 +135,24 @@ class Game extends Component {
     util.changeColor(false);
     util.adjustTimerStyle(false);
     this.resetTimer();
-    this.setState((prevState) => ({ question: prevState.question + 1 }));
+    this.setState((prevState) => ({
+      question: prevState.question + 1,
+      soundEffect: '',
+    }));
+  }
+
+  switchMusic() {
+    const { soundEffect } = this.state;
+    switch (soundEffect) {
+    case ACERTOU:
+      return (<Mp3 musicPath={ acertou } />);
+    case ERROU:
+      return (<Mp3 musicPath={ errou } />);
+    case ESGOTOU:
+      return (<Mp3 musicPath={ tempoAcabou } />);
+    default:
+      return <> </>;
+    }
   }
 
   renderGame() {
@@ -126,6 +161,7 @@ class Game extends Component {
 
     return (
       <div className="game-container">
+        <Mp3 musicPath={ quemQuerSerAbertura } />
         <div className="game-header">
           <h1 className="title">TRIVIA</h1>
           <div className="next-container">
@@ -151,6 +187,7 @@ class Game extends Component {
           timer={ timer }
           submitAnswer={ this.submitAnswer }
         />
+        { this.switchMusic() }
       </div>
     );
   }

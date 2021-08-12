@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import './Ranking.css';
+import { Mp3 } from '../components';
+import { lucianoMichelini } from '../audio';
 
 class Ranking extends Component {
   constructor(props) {
@@ -37,6 +39,7 @@ class Ranking extends Component {
     const { isRedirecting } = this.state;
     return (
       <>
+        <Mp3 musicPath={ lucianoMichelini } />
         <h1 data-testid="ranking-title">Ranking</h1>
         <div>{ this.rankingList() }</div>
         <div>
