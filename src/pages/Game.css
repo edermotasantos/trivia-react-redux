@@ -1,13 +1,15 @@
 .game-container {
   margin-top: 0%;
   margin-bottom: 0%;
-  animation: gradient 15s infinite;
+  animation: gradient 1s infinite;
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab) no-repeat;
   background-size: 300% 300%;
   align-items: center;
   display: flex;
   flex-direction: column;
   width: 60%;
+  border: 5px solid white;
+  box-shadow: 0px 0px 25px currentcolor;
   
 }
 
@@ -44,12 +46,13 @@
 }
 
 .next {
-  /* background-color: red; */
-  border: transparent;
-  color: rgb(40, 44, 52);
+  background-color:#2d1133;
+  border-radius:2px;
+  border: 1px solid rgb(253, 248, 248);
+  color: white;
   font-weight: 600;
-  height: 100%;
-  width: 100%;
+  height: 200%;
+  width: 200%;
 }
 
 .title  h1{
@@ -114,7 +117,7 @@
   background-color:transparent;
   box-shadow: 0px 0px 15px currentcolor;
   border: 5px solid currentcolor;
-  border: dotted 1px rgb(49, 83, 111);
+  border-radius:3px;
   color: #e73c7e border 1px solid black;  
   font-size: 1em;
   font-weight: 600;
@@ -133,6 +136,8 @@
   height: 1.8em;
   justify-content: center;
   width: 1.8em;
+  border: 5px solid white;
+  box-shadow: 0px 0px 15px currentcolor;
 }
 
 .timer {

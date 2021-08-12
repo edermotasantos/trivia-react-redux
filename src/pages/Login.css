@@ -1,60 +1,94 @@
+.App-header {
+  background-color: #2d1133;
+}
 .login {
   display: flex;
   flex-direction: column;
 }
 
-.App-logo{
-  animation: game 10s infinite;
-  box-shadow: 0px 0px 15px currentcolor;
-  background-color: red;
+.App-logo {
+  animation: game 1s ease infinite;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)
+    no-repeat;
+  background-size: 200% 200%;
+  /* box-shadow: 0px 0px 15px currentcolor; */
+}
+p {
+  font-family: "Palette Mosaic", cursive;
 }
 
 #input-text {
   border-radius: 8px;
-  background-color: #2d1133;
+  margin-top: 3px;
+  /* color: white; */
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.959);
   box-shadow: 0px 0px 15px currentcolor;
-  border: 5px solid currentcolor;
+  /* border: 5px solid currentcolor; */
   font-size: 10px;
   padding: 5px 2px;
 }
 
-.App-header{
-  /*  */
-  color: rgb(189, 73, 73); 
+#input-text::placeholder {
+  color: white;
 }
 
 @keyframes game {
   0% {
-    background-position:0 50%;
+    background-position: 0 50%;
   }
   50% {
-    background-position:50% 100%;
+    background-position: 50% 100%;
   }
   100% {
-    background-position:0 50%;
+    background-position: 100% 50%;
   }
 }
-
 
 #input-email {
   border-radius: 8px;
   margin-top: 3px;
-  background-color: #2d1133;
+  /* color: white; */
+  background-color: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.959);
   box-shadow: 0px 0px 15px currentcolor;
-  border: 5px solid currentcolor;
+  /* border: 5px solid currentcolor; */
   font-size: 10px;
   padding: 5px 2px;
 }
 
-button {
-  cursor: pointer;
-  border-radius: 8px;
-  margin-top: 5px;
-  background-color: transparent;
-  border: 2px solid currentcolor;
-  padding: 2px 3px;
+#input-email::placeholder {
+  color: white;
 }
+
+#input-email::placeholder {
+  color: white;
+}
+
+
 button:hover {
   box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(24, 14, 160, 0.748);
+    0 17px 50px 0 white;
+}
+
+.jogar-container {
+  margin-top: 8px;
+  height: 25px;
+  border-radius: 8px;
+  background-color: transparent;
+  animation: game 1s ease infinite;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)
+    no-repeat;
+  background-size: 200% 200%;
+}
+
+.btn-container {
+  cursor: pointer;
+  border-radius: 8px;
+  border:transparent;
+  color: white;
+  background-color: transparent;
+  /* background-color: #2d1133; */
+  /* box-shadow: 0px 0px 15px currentcolor;
+  border: 5px solid currentcolor; */
 }

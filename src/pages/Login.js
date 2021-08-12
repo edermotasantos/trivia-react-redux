@@ -1,27 +1,29 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { changePlayerInfo } from '../actions';
-import * as api from '../services/api';
-import logo from '../trivia.png';
-import './Login.css';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import { changePlayerInfo } from "../actions";
+import * as api from "../services/api";
+import logo from "../trivia.png";
+import "./Login.css";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: '',
-      email: '',
+      name: "",
+      email: "",
       isDisable: true,
-      token: '',
-      gravatar: '',
+      token: "",
+      gravatar: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
     this.validateLogin = this.validateLogin.bind(this);
+    this.renderInitial = this.renderInitial.bind(this);
+    this.renderEnd = this.renderEnd.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -29,7 +31,7 @@ class Login extends React.Component {
     if (email !== prevState.email || name !== prevState.name) {
       this.verifyLogin();
     }
-    sessionStorage.lastConfig = '';
+    sessionStorage.lastConfig = "";
   }
 
   handleChange({ target: { name, value } }) {
@@ -47,64 +49,90 @@ class Login extends React.Component {
   }
 
   validateLogin() {
-    const { player: { assertions, score }, changePlayerInfoHandler } = this.props;
+    const {
+      player: { assertions, score },
+      changePlayerInfoHandler,
+    } = this.props;
     const { name, email } = this.state;
     const gravatarEmail = api.getGravatar(email);
     api.fethApi();
     const state = { player: { name, assertions, score, gravatarEmail } };
-    localStorage.setItem('state', JSON.stringify(state));
+    localStorage.setItem("state", JSON.stringify(state));
     changePlayerInfoHandler({ name, gravatarEmail });
   }
 
-  render() {
-    const { name, email, isDisable } = this.state;
+  renderInitial() {
+    const { name, email } = this.state;
     return (
-      <header className="App-header">
-        <img src={ logo } className="App-logo" alt="logo" />
-        <p>VALENDO 1 MILÃO DE REAIS !!!</p>
-        <form className="login">
-          <label htmlFor="input-text">
-            <input
-              value={ name }
-              name="name"
-              type="text"
-              placeholder="Digite seu Nome"
-              data-testid="input-player-name"
-              id="input-text"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="input-email">
-            <input
-              value={ email }
-              name="email"
-              type="email"
-              data-testid="input-gravatar-email"
-              placeholder="Digite seu Email"
-              id="input-email"
-              onChange={ this.handleChange }
-            />
-          </label>
+      <>
+        <label htmlFor="input-text">
+          <input
+            value={name}
+            name="name"
+            type="text"
+            placeholder="Digite seu Nome"
+            data-testid="input-player-name"
+            id="input-text"
+            onChange={this.handleChange}
+          />
+        </label>
+        <label htmlFor="input-email">
+          <input
+            value={email}
+            name="email"
+            type="email"
+            data-testid="input-gravatar-email"
+            placeholder="Digite seu Email"
+            id="input-email"
+            onChange={this.handleChange}
+          />
+        </label>
+      </>
+    );
+  }
+
+  renderEnd() {
+    const { isDisable } = this.state;
+    return (
+      <>
+        <div className="jogar-container">
           <Link to="/game">
             <button
-              onClick={ this.validateLogin }
-              disabled={ isDisable }
+              className="btn-container"
+              onClick={this.validateLogin}
+              disabled={isDisable}
               type="submit"
               data-testid="btn-play"
             >
               Jogar
             </button>
           </Link>
+        </div>
+        <div className="jogar-container">
           <Link to="/Settings">
             <button
+              className="btn-container"
               data-testid="btn-settings"
               type="button"
             >
               Configurações
             </button>
           </Link>
-        </form>
-      </header>);
+        </div>
+      </>
+    );
+  }
+
+  render() {
+    return (
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>VALENDO 1 MILÃO DE REAIS !!!</p>
+        <form className="login"></form>
+        {this.renderInitial()}
+        {this.renderEnd()}
+      </header>
+    );
   }
 }
 
@@ -113,7 +141,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changePlayerInfoHandler: (playerInfo) => dispatch(changePlayerInfo(playerInfo)),
+  changePlayerInfoHandler: (playerInfo) =>
+    dispatch(changePlayerInfo(playerInfo)),
 });
 
 Login.propTypes = {

@@ -1,5 +1,8 @@
 .feedback-player-container {
-  border: solid 2px white;
+  border: solid 4px white;
+  border-radius: 4px;
+  box-shadow: 0px 0px 15px currentcolor;
+
 }
 
 .feedback-player-header {
@@ -29,6 +32,7 @@
 }
 
 .feedback-data-container {
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,28 +41,36 @@
 
 .play-again-container {
   align-items: center;
-  background-color: white;
-  border: solid 2px white;
+  background-color:transparent;
+  border: solid 4px white;
+  box-shadow: 0px 0px 15px currentcolor;
   border-radius: 15px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   margin: auto;
   max-width: max-content;
 }
 
 .play-again {
-  background-color: transparent;
-  border: transparent;
-  color: rgb(40, 44, 52);
-  font-size: 1.3em;
+  border: transparent;  
+  background-color:transparent;  
+  font-size: 1.0em;
 }
 
 .play-again-label {
-  background-color: transparent;
-  border: transparent;
-  color: rgb(40, 44, 52);
+  color: white;
+  background-color:transparent;
+  border: transparent; 
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
+}
+
+.btn-home{
+  margin-top: 3px;
+  color: white;
+  background-color:transparent;
+  border: solid 4px white;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px currentcolor;
 }
