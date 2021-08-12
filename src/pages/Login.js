@@ -94,11 +94,11 @@ class Login extends React.Component {
   renderEnd() {
     const { isDisable } = this.state;
     return (
-      <>
+      <div className="options-menu">
         <div className="jogar-container">
           <Link to="/game">
             <button
-              className="btn-container"
+              className="btn-container btn-play"
               onClick={ this.validateLogin }
               disabled={ isDisable }
               type="submit"
@@ -119,7 +119,7 @@ class Login extends React.Component {
             </button>
           </Link>
         </div>
-      </>
+      </div>
     );
   }
 
@@ -128,9 +128,10 @@ class Login extends React.Component {
       <header className="App-header">
         <img src={ logo } className="App-logo" alt="logo" />
         <p>VALENDO 1 MILÃO DE REAIS !!!</p>
-        <form className="login" />
-        {this.renderInitial()}
-        {this.renderEnd()}
+        <form className="login">
+          {this.renderInitial()}
+          {this.renderEnd()}
+        </form>
       </header>
     );
   }

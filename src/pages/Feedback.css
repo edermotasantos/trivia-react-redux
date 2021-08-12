@@ -48,21 +48,35 @@
   flex-direction: row;
   margin: auto;
   max-width: max-content;
+  padding: 0 0.2em;
 }
 
 .play-again {
   background-color: transparent;
   border: transparent;
+  box-shadow: none;
+  color: white;
   font-size: 1em;
+}
+
+.play-again:hover {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .play-again-label {
   background-color: transparent;
   border: transparent;
+  box-shadow: none;
   color: white;
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
+}
+
+.play-again-label:hover {
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .btn-home {

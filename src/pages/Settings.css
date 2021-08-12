@@ -1,12 +1,24 @@
-h1 {
+.text-config {
   border: 4px solid rgb(231, 156, 85);
-  border-radius: 100%;
+  border-radius: 50%;
   box-shadow: 0 0 30px currentColor;
   color: rgb(231, 156, 85);
+  font-size: 1.3em;
+  padding-bottom: 0.1em;
 }
 
 select {
   background-color: transparent;
+}
+
+select:hover {
+  background-color: white;
+  color: rgb(45, 17, 51);
+}
+
+select:active {
+  background-color: white;
+  color: rgb(45, 17, 51);
 }
 
 .configuration-menu {
@@ -21,7 +33,7 @@ select {
   border-radius: 3px;
   box-shadow: 0 0 15px currentColor;
   color: white;
-  font-size: 1em;
+  font-size: 0.8em;
   margin: 0.2em 0;
   text-align: center;
 }
@@ -32,7 +44,7 @@ select {
   border-radius: 4px;
   box-shadow: 0 0 15px currentColor;
   color: white;
-  font-size: 1em;
+  font-size: 0.9em;
   font-weight: 600;
   margin: 1.5em auto 0;
 }
