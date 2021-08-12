@@ -1,22 +1,22 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { changePlayerInfo } from "../actions";
-import * as api from "../services/api";
-import logo from "../trivia.png";
-import "./Login.css";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { changePlayerInfo } from '../actions';
+import * as api from '../services/api';
+import logo from '../trivia.png';
+import './Login.css';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      name: "",
-      email: "",
+      name: '',
+      email: '',
       isDisable: true,
-      token: "",
-      gravatar: "",
+      token: '',
+      gravatar: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,7 +31,7 @@ class Login extends React.Component {
     if (email !== prevState.email || name !== prevState.name) {
       this.verifyLogin();
     }
-    sessionStorage.lastConfig = "";
+    sessionStorage.lastConfig = '';
   }
 
   handleChange({ target: { name, value } }) {
@@ -57,7 +57,7 @@ class Login extends React.Component {
     const gravatarEmail = api.getGravatar(email);
     api.fethApi();
     const state = { player: { name, assertions, score, gravatarEmail } };
-    localStorage.setItem("state", JSON.stringify(state));
+    localStorage.setItem('state', JSON.stringify(state));
     changePlayerInfoHandler({ name, gravatarEmail });
   }
 
@@ -67,24 +67,24 @@ class Login extends React.Component {
       <>
         <label htmlFor="input-text">
           <input
-            value={name}
+            value={ name }
             name="name"
             type="text"
             placeholder="Digite seu Nome"
             data-testid="input-player-name"
-            id="input-text"
-            onChange={this.handleChange}
+            className="input-text"
+            onChange={ this.handleChange }
           />
         </label>
         <label htmlFor="input-email">
           <input
-            value={email}
+            value={ email }
             name="email"
             type="email"
             data-testid="input-gravatar-email"
             placeholder="Digite seu Email"
-            id="input-email"
-            onChange={this.handleChange}
+            className="input-email"
+            onChange={ this.handleChange }
           />
         </label>
       </>
@@ -99,8 +99,8 @@ class Login extends React.Component {
           <Link to="/game">
             <button
               className="btn-container"
-              onClick={this.validateLogin}
-              disabled={isDisable}
+              onClick={ this.validateLogin }
+              disabled={ isDisable }
               type="submit"
               data-testid="btn-play"
             >
@@ -126,9 +126,9 @@ class Login extends React.Component {
   render() {
     return (
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={ logo } className="App-logo" alt="logo" />
         <p>VALENDO 1 MILÃO DE REAIS !!!</p>
-        <form className="login"></form>
+        <form className="login" />
         {this.renderInitial()}
         {this.renderEnd()}
       </header>
@@ -141,8 +141,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changePlayerInfoHandler: (playerInfo) =>
-    dispatch(changePlayerInfo(playerInfo)),
+  changePlayerInfoHandler: (playerInfo) => dispatch(changePlayerInfo(playerInfo)),
 });
 
 Login.propTypes = {

@@ -1,8 +1,7 @@
 .feedback-player-container {
   border: solid 4px white;
   border-radius: 4px;
-  box-shadow: 0px 0px 15px currentcolor;
-
+  box-shadow: 0 0 15px currentColor;
 }
 
 .feedback-player-header {
@@ -41,10 +40,10 @@
 
 .play-again-container {
   align-items: center;
-  background-color:transparent;
+  background-color: transparent;
   border: solid 4px white;
-  box-shadow: 0px 0px 15px currentcolor;
   border-radius: 15px;
+  box-shadow: 0 0 15px currentColor;
   display: flex;
   flex-direction: row;
   margin: auto;
@@ -52,25 +51,25 @@
 }
 
 .play-again {
-  border: transparent;  
-  background-color:transparent;  
-  font-size: 1.0em;
+  background-color: transparent;
+  border: transparent;
+  font-size: 1em;
 }
 
 .play-again-label {
+  background-color: transparent;
+  border: transparent;
   color: white;
-  background-color:transparent;
-  border: transparent; 
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
 }
 
-.btn-home{
-  margin-top: 3px;
-  color: white;
-  background-color:transparent;
+.btn-home {
+  background-color: transparent;
   border: solid 4px white;
   border-radius: 15px;
-  box-shadow: 0px 0px 15px currentcolor;
+  box-shadow: 0 0 15px currentColor;
+  color: white;
+  margin-top: 3px;
 }
