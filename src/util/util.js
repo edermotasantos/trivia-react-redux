@@ -1,33 +1,90 @@
 const EASY = 1;
 const MEDIUM = 2;
 const HARD = 3;
-const RAND = 0.7;
 const CORRECT = 'correct-answer';
 const WRONG = 'wrong-answer';
 const TIMER = '.timer-container';
 
+function decodeHtmlEntities(textEncoded) {
+  const textDecodeA = textEncoded.replaceAll('&aacute;', 'á').replaceAll('&Aacute;', 'Á')
+    .replaceAll('&agrave;', 'à').replaceAll('&Agrave;', 'À')
+    .replaceAll('&atilde;', 'ã')
+    .replaceAll('&Atilde;', 'Ã')
+    .replaceAll('&acirc;', 'â')
+    .replaceAll('&Acirc;', 'Â');
+  const textDecodeE = textDecodeA.replaceAll('&eacute;', 'é').replaceAll('&Eacute;', 'É')
+    .replaceAll('&egrave;', 'è').replaceAll('&Egrave;', 'È')
+    .replaceAll('&ecirc;', 'ê')
+    .replaceAll('&Ecirc;', 'Ê');
+  const textDecodeI = textDecodeE.replaceAll('&iacute;', 'í').replaceAll('&Iacute;', 'Í')
+    .replaceAll('&igrave;', 'î').replaceAll('&Igrave;', 'Ì');
+  const textDecodeO = textDecodeI.replaceAll('&oacute;', 'ó').replaceAll('&Oacute;', 'Ó')
+    .replaceAll('&ograve;', 'ò').replaceAll('&Ograve;', 'Ò')
+    .replaceAll('&otilde;', 'õ')
+    .replaceAll('&Otilde;', 'Õ')
+    .replaceAll('&ocirc;', 'ô')
+    .replaceAll('&Ocirc;', 'Ô');
+  const textDecodeU = textDecodeO.replaceAll('&uacute;', 'ú').replaceAll('&Uacute;', 'Ú')
+    .replaceAll('&ugrave;', 'ù').replaceAll('&Ugrave;', 'Ù')
+    .replaceAll('&ucirc;', 'û')
+    .replaceAll('&Ucirc;', 'Û');
+  const textDecodeUml = textDecodeU.replaceAll('&auml;', 'ä').replaceAll('&Auml;', 'Ä')
+    .replaceAll('&euml;', 'ë').replaceAll('&Euml;', 'Ë')
+    .replaceAll('&iuml;', 'ï')
+    .replaceAll('&Iuml;', 'Ï')
+    .replaceAll('&ouml;', 'ö')
+    .replaceAll('&Ouml;', 'Ö')
+    .replaceAll('&uuml;', 'ü')
+    .replaceAll('&Uuml;', 'Ü');
+  const textDecodeCons = textDecodeUml.replaceAll('&ccedil;', 'ç')
+    .replaceAll('&Ccedil;', 'Ç').replaceAll('&ntilde;', 'ñ').replaceAll('&Ntilde;', 'Ñ');
+  const textDecodeEsp = textDecodeCons.replaceAll('&amp;', '&').replaceAll('&copy;', '©')
+    .replaceAll('&reg;', '®').replaceAll('&quot;', '"')
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&#039;', '\'');
+  const textDecoded = textDecodeEsp;
+  return textDecoded;
+}
+
+function randomUniques(quantity) {
+  const numbers = new Set();
+  while (numbers.size < quantity) numbers.add(Math.floor(Math.random() * quantity));
+  return numbers;
+}
+
+function shuffle(array, randomIndexes) {
+  const shuffledArray = [];
+  randomIndexes.forEach((index) => shuffledArray.push(array[index]));
+  return shuffledArray;
+}
+
 export function formatQuestions(questions) {
   const formatAnswers = questions.map((answer) => [{
-    correct: { value: answer.correct_answer.replaceAll('&amp;', '&')
-      .replaceAll('&quot;', '"').replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
-      .replaceAll('&gt;', '>'),
-    id: CORRECT },
+    correct: { value: decodeHtmlEntities(answer.correct_answer),
+      id: CORRECT },
     incorrect: answer.incorrect_answers.map((incorrect, index) => (
-      { value: incorrect.replaceAll('&amp;', '&').replaceAll('&quot;', '"')
-        .replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
-        .replaceAll('&gt;', '>'),
-      id: `wrong-answer-${index}` }
+      { value: decodeHtmlEntities(incorrect),
+        id: `wrong-answer-${index}` }
     )),
   }]);
   const spreadAnswers = formatAnswers.map((answer) => [
     answer[0].correct, ...answer[0].incorrect,
   ]);
   const mixedAnswers = spreadAnswers
-    .map((answer) => answer.sort(() => Math.random() - RAND));
+    .map((answer) => {
+      const MAX_ANSWERS = 4;
+      let shuffledAnswers;
+      if (answer.length === MAX_ANSWERS) {
+        shuffledAnswers = shuffle(answer, randomUniques(MAX_ANSWERS));
+      }
+      if (answer.length === 2) {
+        shuffledAnswers = shuffle(answer, randomUniques(2));
+      }
+      return shuffledAnswers;
+    });
   const formatedQuestions = questions.map((question, index) => {
-    const decodeQuestion = question.question.replaceAll('&amp;', '&')
-      .replaceAll('&quot;', '"').replaceAll('&#039;', '\'').replaceAll('&lt;', '<')
-      .replaceAll('&gt;', '>');
+    const decodeQuestion = decodeHtmlEntities(question.question);
     const formatObject = {
       category: question.category,
       type: question.category,
