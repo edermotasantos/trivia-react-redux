@@ -2,6 +2,7 @@ import {
   CHANGE_PLAYER_INFORMATION,
   SET_UPDATE_SCORE,
   RESET_SCORE,
+  RESET_PLAYER,
   WILL_PLAY_AGAIN,
   REQUEST_CATEGORIES,
   GET_CATEGORIES,
@@ -22,6 +23,10 @@ export const changePlayerInfo = (playerInfo) => ({
 export const setUpdateScore = (scoreInfo) => ({
   type: SET_UPDATE_SCORE,
   scoreInfo,
+});
+
+export const resetPlayer = () => ({
+  type: RESET_PLAYER,
 });
 
 export const resetScore = () => ({
@@ -80,13 +85,11 @@ export const fetchQuestions = (config, token) => async (dispatch) => {
   const MAX_QUESTIONS = 5;
   dispatch(requestQuestions());
   try {
-    console.log(`${URL}.php?amount=5${config}&token=${token}`);
     const response = await fetch(`${URL}.php?amount=5${config}&token=${token}`);
     const questions = await response.json();
     dispatch(succeededQuestionsRequest(questions.results));
     if (questions.results.length < MAX_QUESTIONS) sessionStorage.customError = true;
     else sessionStorage.customError = false;
-    console.log(sessionStorage.customError, sessionStorage.lastConfig);
     sessionStorage.lastConfig = config;
     return questions.results;
   } catch (error) {

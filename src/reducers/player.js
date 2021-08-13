@@ -3,6 +3,7 @@ import {
   SET_UPDATE_SCORE,
   RESET_SCORE,
   WILL_PLAY_AGAIN,
+  RESET_PLAYER,
 } from '../actions/ActionTypes';
 
 const INITIAL_STATE = {
@@ -23,6 +24,8 @@ const player = (state = INITIAL_STATE, action) => {
       score: state.score + action.scoreInfo.score,
       assertions: state.assertions + 1,
     };
+  case RESET_PLAYER:
+    return { ...state, name: '', assertions: 0, score: 0, gravatarEmail: '' };
   case RESET_SCORE:
     return { ...state, assertions: 0, score: 0 };
   case WILL_PLAY_AGAIN:

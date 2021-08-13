@@ -6,17 +6,17 @@
   box-shadow: 0 0 10px currentColor;
   display: flex;
   flex-direction: row;
-  margin: auto;
-  margin-top: 1.5em;
-  max-width: max-content;
+  margin: 1.5em auto;
   padding: 0 0.2em;
+  position: relative;
+  width: 6em;
 }
 
 .rank-home-btn-container:hover {
   background-color: white;
 }
 
-.rank-btn-home {
+.btn-home {
   background-color: transparent;
   border: transparent;
   box-shadow: none;
@@ -24,25 +24,41 @@
   font-size: 1em;
 }
 
-.rank-btn-home:hover {
+.btn-home:hover {
   background-color: white;
   box-shadow: none;
   color: transparent;
   z-index: 2;
 }
 
-.rank-btn-home-label {
+.btn-home-label {
   background-color: transparent;
   border: transparent;
+  border-radius: 15px;
   box-shadow: none;
   color: white;
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
+  width: 100%;
+  z-index: 1;
 }
 
-.rank-btn-home-label:hover {
+.btn-home-label:hover {
   background-color: white;
   box-shadow: none;
   color: rgb(45, 17, 51);
+  width: 100%;
+}
+
+.home-one {
+  left: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.home-two {
+  position: absolute;
+  right: 0;
+  z-index: 0;
 }
