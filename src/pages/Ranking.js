@@ -47,7 +47,7 @@ class Ranking extends Component {
             <div className="rank-home-btn-container">
               <button
                 type="button"
-                className="rank-btn-home material-icons"
+                className="btn-home home-one material-icons"
                 onClick={ () => this.handleClick() }
               >
                 home
@@ -62,7 +62,7 @@ class Ranking extends Component {
               </button>
               <button
                 type="button"
-                className="btn-home material-icons"
+                className="btn-home home-two material-icons"
                 onClick={ () => this.handleClick() }
               >
                 home

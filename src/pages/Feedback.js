@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { resetScore, willPlayAgain, fetchQuestions } from '../actions';
+import { resetScore, resetPlayer, willPlayAgain, fetchQuestions } from '../actions';
 import { Header, Mp3 } from '../components';
 import { acertouPouco, foiBem } from '../audio';
 import './Feedback.css';
@@ -40,12 +40,16 @@ class Feedback extends Component {
   }
 
   rankingScreen() {
-    const { resetScoreHandler } = this.props;
-    resetScoreHandler();
+    const { resetPlayerHandler } = this.props;
+    resetPlayerHandler();
+    localStorage.removeItem('state');
     this.setState({ option: 'ranking' });
   }
 
   goHome() {
+    const { resetPlayerHandler } = this.props;
+    resetPlayerHandler();
+    localStorage.removeItem('state');
     this.setState({ option: 'home' });
   }
 
@@ -77,21 +81,21 @@ class Feedback extends Component {
       <div className="play-again-container" data-testid="btn-play-again">
         <button
           type="button"
-          className="play-again material-icons"
+          className="play-again replay material-icons"
           onClick={ () => this.restartGame() }
         >
           replay_circle_filled
         </button>
         <button
           type="button"
-          className="play-again-label"
+          className="play-again-label again"
           onClick={ () => this.restartGame() }
         >
           JOGAR NOVAMENTE
         </button>
         <button
           type="button"
-          className="play-again material-icons"
+          className="play-again extension material-icons"
           onClick={ () => this.restartGame() }
         >
           extension
@@ -105,7 +109,7 @@ class Feedback extends Component {
       <div className="ranking-btn-container">
         <button
           type="button"
-          className="btn-ranking material-icons"
+          className="btn-ranking military-one material-icons"
           onClick={ () => this.rankingScreen() }
         >
           military_tech
@@ -120,7 +124,7 @@ class Feedback extends Component {
         </button>
         <button
           type="button"
-          className="btn-ranking material-icons"
+          className="btn-ranking military-two material-icons"
           onClick={ () => this.rankingScreen() }
         >
           military_tech
@@ -134,7 +138,7 @@ class Feedback extends Component {
       <div className="home-btn-container">
         <button
           type="button"
-          className="btn-home material-icons"
+          className="btn-home home-one material-icons"
           data-testid="btn-go-home"
           onClick={ () => this.goHome() }
         >
@@ -150,7 +154,7 @@ class Feedback extends Component {
         </button>
         <button
           type="button"
-          className="btn-home material-icons"
+          className="btn-home home-two material-icons"
           data-testid="btn-go-home"
           onClick={ () => this.goHome() }
         >
@@ -166,7 +170,6 @@ class Feedback extends Component {
         { this.renderRestartButtons() }
         { this.renderRankingButtons() }
         { this.renderHomeButtons() }
-
       </div>
     );
   }
@@ -216,6 +219,7 @@ const mapStateToProps = (state) => ({ player: state.player });
 
 const mapDispatchToProps = (dispatch) => ({
   resetScoreHandler: () => dispatch(resetScore()),
+  resetPlayerHandler: () => dispatch(resetPlayer()),
   willPlayAgainHandler: () => dispatch(willPlayAgain()),
   getCustomQuestionsHandler: (config, token) => dispatch(fetchQuestions(config, token)),
 });
@@ -228,6 +232,7 @@ Feedback.propTypes = {
     assertions: PropTypes.number,
   }).isRequired,
   resetScoreHandler: PropTypes.func.isRequired,
+  resetPlayerHandler: PropTypes.func.isRequired,
   willPlayAgainHandler: PropTypes.func.isRequired,
   getCustomQuestionsHandler: PropTypes.func.isRequired,
 };

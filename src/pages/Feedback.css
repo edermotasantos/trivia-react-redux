@@ -55,8 +55,9 @@
   display: flex;
   flex-direction: row;
   margin: auto;
-  max-width: max-content;
   padding: 0 0.2em;
+  position: relative;
+  width: 9em;
 }
 
 .play-again-container:hover {
@@ -75,23 +76,38 @@
   background-color: white;
   box-shadow: none;
   color: transparent;
-  z-index: 2;
 }
 
 .play-again-label {
   background-color: transparent;
   border: transparent;
+  border-radius: 15px;
   box-shadow: none;
   color: white;
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
+  width: 100%;
+  z-index: 1;
 }
 
 .play-again-label:hover {
   background-color: white;
   box-shadow: none;
   color: rgb(45, 17, 51);
+  width: 100%;
+}
+
+.replay {
+  left: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.extension {
+  position: absolute;
+  right: 0;
+  z-index: 0;
 }
 
 .ranking-btn-container {
@@ -103,8 +119,9 @@
   display: flex;
   flex-direction: row;
   margin: auto;
-  max-width: max-content;
   padding: 0 0.2em;
+  position: relative;
+  width: 7em;
 }
 
 .ranking-btn-container:hover {
@@ -129,17 +146,33 @@
 .btn-ranking-label {
   background-color: transparent;
   border: transparent;
+  border-radius: 15px;
   box-shadow: none;
   color: white;
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
+  width: 100%;
+  z-index: 1;
 }
 
 .btn-ranking-label:hover {
   background-color: white;
   box-shadow: none;
   color: rgb(45, 17, 51);
+  width: 100%;
+}
+
+.military-one {
+  left: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.military-two {
+  position: absolute;
+  right: 0;
+  z-index: 0;
 }
 
 .home-btn-container {
@@ -151,8 +184,9 @@
   display: flex;
   flex-direction: row;
   margin: auto;
-  max-width: max-content;
   padding: 0 0.2em;
+  position: relative;
+  width: 6em;
 }
 
 .home-btn-container:hover {
@@ -177,15 +211,31 @@
 .btn-home-label {
   background-color: transparent;
   border: transparent;
+  border-radius: 15px;
   box-shadow: none;
   color: white;
   font-size: 0.6em;
   font-weight: 600;
   height: 2.5em;
+  width: 100%;
+  z-index: 1;
 }
 
 .btn-home-label:hover {
   background-color: white;
   box-shadow: none;
   color: rgb(45, 17, 51);
+  width: 100%;
+}
+
+.home-one {
+  left: 0;
+  position: absolute;
+  z-index: 0;
+}
+
+.home-two {
+  position: absolute;
+  right: 0;
+  z-index: 0;
 }
