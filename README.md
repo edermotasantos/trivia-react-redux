@@ -1,3 +1,9 @@
+# Trivia React Redux
+
+Com áudio a partir de 0:15:
+
+https://user-images.githubusercontent.com/82417443/156821526-8fe3c5e9-a30a-47ce-abdb-fb913ba6772f.mp4
+
 ### Termos de acordo
 
 Ao iniciar este projeto, você concorda com as diretrizes do Código de Ética e Conduta e do Manual da Pessoa Estudante da Trybe.
